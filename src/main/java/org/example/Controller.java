@@ -12,6 +12,11 @@ public class Controller {
         } catch (Exception e) {
             System.out.println(e);
         }
+        try{
+            playBoard.move('E', '7', 'S');
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
     public void pauseGame(PlayBoard board){
