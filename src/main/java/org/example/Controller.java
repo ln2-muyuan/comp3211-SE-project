@@ -1,5 +1,7 @@
 package org.example;
 
+import org.example.model.PlayBoard;
+
 public class Controller {
     public void intro(){
 
@@ -8,15 +10,17 @@ public class Controller {
         PlayBoard playBoard = new PlayBoard();
         playBoard.printBoard();
         try{
-            playBoard.move('E', '8', 'S');
+            playBoard.move('F', '8', 'S');
         } catch (Exception e) {
             System.out.println(e);
         }
+        playBoard.printBoard();
         try{
             playBoard.move('E', '7', 'S');
         } catch (Exception e) {
             System.out.println(e);
         }
+
     }
 
     public void pauseGame(PlayBoard board){
