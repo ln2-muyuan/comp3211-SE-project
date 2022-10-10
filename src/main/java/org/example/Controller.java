@@ -24,7 +24,7 @@ public class Controller {
     }
 
     public void pauseGame(PlayBoard board){
-        System.out.println('09');
+        System.out.println("0");
     }
 
     public void resumeGame(PlayBoard board){
