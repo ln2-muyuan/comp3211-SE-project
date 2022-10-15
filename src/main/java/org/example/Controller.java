@@ -19,7 +19,7 @@ public class Controller {
             while (turn % 2 != 0) {
                 try {
                     System.out.println("Choose an X Coordinate (A, B, C, D, E, F, G): ");
-                    char xCoordinateC = ' ';
+                    char xCoordinateC;
                     while (true) {
                         Scanner input = new Scanner(System.in);
                         String xCoordinateS = input.nextLine();
@@ -34,7 +34,7 @@ public class Controller {
                     }
 
                     System.out.println("Choose a Y Coordinate (1, 2, 3, 4, 5, 6, 7, 8, 9): ");
-                    char yCoordinateC = ' ';
+                    char yCoordinateC;
                     while (true) {
                         Scanner input = new Scanner(System.in);
                         String yCoordinateS = input.nextLine();
@@ -49,7 +49,7 @@ public class Controller {
                     }
 
                     System.out.println("Choose a Direction (W, D, S, A): ");
-                    char directionC = ' ';
+                    char directionC;
                     while (true) {
                         Scanner input = new Scanner(System.in);
                         String directionS = input.nextLine();
@@ -70,51 +70,48 @@ public class Controller {
                     System.out.println(e);
                 }
                 playBoard.printBoard();
+                turn++;
             }
 
             while (turn % 2 == 0) {
-                try{
+                try {
                     System.out.println("Choose an X Coordinate (A, B, C, D, E, F, G): ");
-                    char xCoordinateC = ' ';
+                    char xCoordinateC;
                     while (true) {
                         Scanner input = new Scanner(System.in);
                         String xCoordinateS = input.nextLine();
                         xCoordinateC = xCoordinateS.charAt(0);
                         int len = xCoordinateS.length();
                         if (len == 1){
-                            if (xCoordinateC == 'A' || xCoordinateC == 'B' || xCoordinateC == 'C' || xCoordinateC == 'D' || xCoordinateC == 'E' || xCoordinateC == 'F' || xCoordinateC == 'G') {
+                            if (xCoordinateC == 'A' || xCoordinateC == 'B' || xCoordinateC == 'C' || xCoordinateC == 'D' || xCoordinateC == 'E' || xCoordinateC == 'F' || xCoordinateC == 'G')
                                 break;
-                            }
                         }
                         System.out.println("Invalid input. Please try again: ");
                     }
 
                     System.out.println("Choose a Y Coordinate (1, 2, 3, 4, 5, 6, 7, 8, 9): ");
-                    char yCoordinateC = ' ';
+                    char yCoordinateC;
                     while (true) {
                         Scanner input = new Scanner(System.in);
                         String yCoordinateS = input.nextLine();
                         yCoordinateC = yCoordinateS.charAt(0);
                         int len = yCoordinateS.length();
                         if (len == 1){
-                            if (yCoordinateC == '1' || yCoordinateC == '2' || yCoordinateC == '3' || yCoordinateC == '4' || yCoordinateC == '5' || yCoordinateC == '6' || yCoordinateC == '7' || yCoordinateC == '8' || yCoordinateC == '9') {
+                            if (yCoordinateC == '1' || yCoordinateC == '2' || yCoordinateC == '3' || yCoordinateC == '4' || yCoordinateC == '5' || yCoordinateC == '6' || yCoordinateC == '7' || yCoordinateC == '8' || yCoordinateC == '9')
                                 break;
-                            }
                         }
                         System.out.println("Invalid input. Please try again: ");
                     }
 
                     System.out.println("Choose a Direction (W, D, S, A): ");
-                    char directionC = ' ';
+                    char directionC;
                     while (true) {
                         Scanner input = new Scanner(System.in);
                         String directionS = input.nextLine();
                         directionC = directionS.charAt(0);
                         int len = directionS.length();
                         if (len == 1){
-                            if (directionC == 'W' || directionC == 'D' || directionC == 'S' || directionC == 'A') {
-                                break;
-                            }
+                            if (directionC == 'W' || directionC == 'D' || directionC == 'S' || directionC == 'A') break;
                         }
                         System.out.println("Invalid input. Please try again: ");
                     }
@@ -126,8 +123,8 @@ public class Controller {
                     System.out.println(e);
                 }
                 playBoard.printBoard();
+                turn++;
             }
-            turn++;
         }
 
     }
