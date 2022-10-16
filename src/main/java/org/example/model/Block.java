@@ -9,7 +9,7 @@ public class Block {
     void changeState(String state){
         this.state = state;
     }
-    String getState(){
+    public String getState(){
         return this.state;
     }
     void putChess(Chess chess){
@@ -18,10 +18,10 @@ public class Block {
     void removeChess(){
         this.chess = null;
     }
-    Chess getChess(){
+    public Chess getChess(){
         return this.chess;
     }
-    boolean checkHasChess() {
+    public boolean checkHasChess() {
         return this.chess != null;
     }
 }

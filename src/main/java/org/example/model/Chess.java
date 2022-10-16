@@ -7,10 +7,10 @@ public class Chess {
         this.name = name;
         this.team = team;
     }
-    String getName(){
+    public String getName(){
         return this.name;
     }
-    String getTeam(){
+    public String getTeam(){
         return this.team;
     }
 }

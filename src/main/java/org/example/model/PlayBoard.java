@@ -1,6 +1,4 @@
 package org.example.model;
-import org.example.model.Block;
-import org.example.model.Chess;
 
 import java.util.HashMap;
 
@@ -10,6 +8,7 @@ public class PlayBoard {
     private Integer turnCount = 0;
     private String gameState;
     private HashMap<String, Integer> power;
+
     private HashMap<String,Integer> setPower(){
         HashMap<String,Integer> answer=new HashMap<>();
         answer.put("Rat", 0);
@@ -59,9 +58,6 @@ public class PlayBoard {
             board[i][5].changeState("River");
         }
         power = setPower();
-    }
-    private String fixedLengthString(String string, int length) {
-        return String.format("%1$"+length+ "s", string);
     }
     private Integer[] converter(char X, char Y){
         Integer[] coordinates = new Integer[2];
@@ -130,24 +126,6 @@ public class PlayBoard {
             }
         }
         return destination;
-    }
-    private boolean checkLegalInput(char xCoordinate, char yCoordinate) throws Exception {
-        if (xCoordinate < 'A' || xCoordinate > 'G' || yCoordinate <= '0' || yCoordinate > '9'){
-            throw new Exception("Input coordinate out of play area!");
-        }
-        if (!board[converter(xCoordinate, yCoordinate)[0]][converter(xCoordinate, yCoordinate)[1]].checkHasChess()){
-            throw new Exception("There is no chess on this coordinate!");
-        }
-        if (turnCount % 2 == 0){
-            if (board[converter(xCoordinate, yCoordinate)[0]][converter(xCoordinate, yCoordinate)[1]].getChess().getTeam().equals("blue")){
-                throw new Exception("It's not your turn!");
-            }
-        } else {
-            if (board[converter(xCoordinate, yCoordinate)[0]][converter(xCoordinate, yCoordinate)[1]].getChess().getTeam().equals("red")){
-                throw new Exception("It's not your turn!");
-            }
-        }
-        return true;
     }
     private boolean checkLegalMove(Integer[] convertedInput, char direction) throws Exception {
         Integer[] destination = getDestination(convertedInput, direction);
@@ -250,23 +228,23 @@ public class PlayBoard {
     public PlayBoard() {
         initialize();
     }
-    public void printBoard() {
-        for (int i = 0; i < 9; i++) {
-            System.out.print(9 - i +" ");
-            for (int j = 0; j < 7; j++) {
-                String temp;
-                if (!board[i][j].checkHasChess()){
-                    temp = board[i][j].getState();
-                }
-                else {
-                    temp = board[i][j].getChess().getName()+"-"+Character.toUpperCase(board[i][j].getChess().getTeam().charAt(0));
-                }
-                temp = fixedLengthString(temp, 12);
-                System.out.print(temp);
-            }
-            System.out.println("");
+    public boolean checkLegalInput(char xCoordinate, char yCoordinate) throws Exception {
+        if (!board[converter(xCoordinate, yCoordinate)[0]][converter(xCoordinate, yCoordinate)[1]].checkHasChess()){
+            throw new Exception("There is no chess on this coordinate!");
         }
-        System.out.println("           A           B           C           D           E           F           G");
+        if (turnCount % 2 == 0){
+            if (board[converter(xCoordinate, yCoordinate)[0]][converter(xCoordinate, yCoordinate)[1]].getChess().getTeam().equals("blue")){
+                throw new Exception("It's not your turn!");
+            }
+        } else {
+            if (board[converter(xCoordinate, yCoordinate)[0]][converter(xCoordinate, yCoordinate)[1]].getChess().getTeam().equals("red")){
+                throw new Exception("It's not your turn!");
+            }
+        }
+        return true;
+    }
+    public Block[][] getBoard(){
+        return board;
     }
     public void move(char xCoordinate, char yCoordinate, char direction) throws Exception {
         Integer[] originalSite = new Integer[2];
@@ -284,4 +262,5 @@ public class PlayBoard {
             System.out.println("The game has ended" + gameState);
         }
     }
+
 }
