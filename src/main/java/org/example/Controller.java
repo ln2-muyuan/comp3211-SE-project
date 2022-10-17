@@ -42,7 +42,6 @@ public class Controller {
                             }
                         }
                         System.out.println("Invalid input. Please try again.");
-
                     }
                     while (true) {
                         System.out.print("Choose a Y Coordinate (1, 2, 3, 4, 5, 6, 7, 8, 9): ");
@@ -60,7 +59,7 @@ public class Controller {
                     playBoard.checkLegalInput(xCoordinateC, yCoordinateC);
                 }
                 catch (Exception e){
-                    System.out.print(e);
+                    System.out.print(e.getMessage());
                     System.out.println(" Please try again.");
                     coordinateValid = false;
                 }
@@ -82,15 +81,10 @@ public class Controller {
                             }
                         }
                         System.out.println("Invalid input. Please try again.");
-                        System.out.printf("\033[%dA", 2);
-                        System.out.print("\033[2K");
-                        System.out.print("\033[2K");
-                        System.out.print("\033[2K");
-                        System.out.printf("\033[%dA", 2);
                     }
                     playBoard.move(xCoordinateC, yCoordinateC, directionC);
                 } catch (Exception e) {
-                    System.out.print(e);
+                    System.out.print(e.getMessage());
                     System.out.println(" Please try again.");
                     moveValid = false;
                 }

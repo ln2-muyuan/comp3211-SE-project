@@ -134,8 +134,6 @@ public class PlayBoard {
         }
         return isLegalRiver(convertedInput, direction) && isNotSameTeam(convertedInput, direction) && isLegalEat(convertedInput, direction) ;
     }
-
-
     private boolean isLegalRiver(Integer[] convertedInput, char direction) throws Exception {
         Integer[] destination = getDestination(convertedInput, direction);
         if (!board[destination[0]][destination[1]].getState().equals("River")){
@@ -185,15 +183,14 @@ public class PlayBoard {
         }
         if (board[destination[0]][destination[1]].checkHasChess()){
             if ((power.get(board[convertedInput[0]][convertedInput[1]].getChess().getName()) >= power.get(board[destination[0]][destination[1]].getChess().getName())) || ((board[convertedInput[0]][convertedInput[1]].getChess().getName().equals("Rat") && board[destination[0]][destination[1]].getChess().getName().equals("Elephant"))) || board[destination[0]][destination[1]].getState().equals("Trap")){
-                if ((board[convertedInput[0]][convertedInput[1]].getState().equals("River") && board[destination[0]][destination[1]].getState().equals("River")) || (board[convertedInput[0]][convertedInput[1]].getState().equals("Empty") && board[destination[0]][destination[1]].getState().equals("Empty"))){
+                if (!((board[convertedInput[0]][convertedInput[1]].getState().equals("River") && board[destination[0]][destination[1]].getState().equals("Empty")) || (board[convertedInput[0]][convertedInput[1]].getState().equals("Empty") && board[destination[0]][destination[1]].getState().equals("River")))){
                     if (!(board[convertedInput[0]][convertedInput[1]].getChess().getName().equals("Elephant") && board[destination[0]][destination[1]].getChess().getName().equals("Rat"))){
                         return true;
                     }
-                    return true;
                 }
             }
         }
-        throw new Exception("You cannot eat this animal according to the power table!");
+        throw new Exception("You cannot eat this animal!");
     }
     private boolean isNotSameTeam(Integer[] convertedInput, char direction) throws Exception {
         Integer[] destination = getDestination(convertedInput, direction);
