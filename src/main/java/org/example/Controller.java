@@ -3,6 +3,8 @@ package org.example;
 import org.example.model.Block;
 import org.example.model.PlayBoard;
 import org.example.util.Ansi;
+
+import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class Controller {
@@ -15,9 +17,11 @@ public class Controller {
         int turn = 1;
         while (true) {
             if (turn % 2 == 1) {
-                System.out.println("Red's turn");
+                String red = new Ansi(Ansi.RED, Ansi.ITALIC).format("Red's turn");
+                view.print(red);
             } else {
-                System.out.println("Blue's turn");
+                String blue = new Ansi(Ansi.BLUE, Ansi.ITALIC).format("Blue's turn");
+                view.print(blue);
             }
 
             boolean coordinateValid;
@@ -38,6 +42,7 @@ public class Controller {
                             }
                         }
                         System.out.println("Invalid input. Please try again.");
+
                     }
                     while (true) {
                         System.out.print("Choose a Y Coordinate (1, 2, 3, 4, 5, 6, 7, 8, 9): ");
@@ -55,7 +60,8 @@ public class Controller {
                     playBoard.checkLegalInput(xCoordinateC, yCoordinateC);
                 }
                 catch (Exception e){
-                    System.out.println(e);
+                    System.out.print(e);
+                    System.out.println(" Please try again.");
                     coordinateValid = false;
                 }
             } while (!coordinateValid);
@@ -76,10 +82,16 @@ public class Controller {
                             }
                         }
                         System.out.println("Invalid input. Please try again.");
+                        System.out.printf("\033[%dA", 2);
+                        System.out.print("\033[2K");
+                        System.out.print("\033[2K");
+                        System.out.print("\033[2K");
+                        System.out.printf("\033[%dA", 2);
                     }
                     playBoard.move(xCoordinateC, yCoordinateC, directionC);
                 } catch (Exception e) {
-                    System.out.println(e);
+                    System.out.print(e);
+                    System.out.println(" Please try again.");
                     moveValid = false;
                 }
             } while (!moveValid);
@@ -92,17 +104,21 @@ public class Controller {
     }
 
 
-    public void intro(){
-        System.out.println("Welcome to the chess game!");
+    public void intro() throws InterruptedException {
+        String title = "Welcome to the Jungle Game";
+        String msg = Ansi.Italic.and(Ansi.HighIntensity).and(Ansi.Cyan).format("%s", title);
+        view.print(msg);
         playNewGame();
     }
 
 
     public static void main(String[] args) {
-        String name = "Chess Game";
-        String msg = Ansi.Red.and(Ansi.BgYellow).format("Hello %s", name);
-        System.out.println(msg);
         Controller controller = new Controller();
-        controller.intro();
+        try {
+            controller.intro();
+        }
+        catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
