@@ -4,7 +4,6 @@ import org.example.model.Block;
 import org.example.model.PlayBoard;
 import org.example.util.Ansi;
 
-import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class Controller {
@@ -94,6 +93,10 @@ public class Controller {
             temp = playBoard.getBoard();
             view.print(temp);
             turn++;
+            if (!playBoard.getGameState().equals("progressing")){
+                view.print(playBoard.getGameState());
+                break;
+            }
         }
     }
 
