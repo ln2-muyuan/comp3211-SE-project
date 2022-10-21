@@ -108,6 +108,12 @@ public class Controller {
         playNewGame();
     }
 
+    public void rule(){}
+    public void giveUp(){}
+    public void quit(){}
+    public void pause(){}
+    public void restart(){}
+
 
     public static void main(String[] args) {
         Controller controller = new Controller();
