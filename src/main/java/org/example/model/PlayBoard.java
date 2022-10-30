@@ -1,6 +1,7 @@
 package org.example.model;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 
 public class PlayBoard {
@@ -252,6 +253,11 @@ public class PlayBoard {
                 gameState = "redWin";
             }
         }
+        if (checkWhoQuit("Blue")) {
+            gameState = "redWin";
+        } else if (checkWhoQuit("red")) {
+            gameState = "blueWin";
+        }
     }
 
 
@@ -263,6 +269,7 @@ public class PlayBoard {
     public PlayBoard() {
         initialize();
     }
+
     public void checkLegalInput(char xCoordinate, char yCoordinate) throws Exception {
         if (!board[converter(xCoordinate, yCoordinate)[0]][converter(xCoordinate, yCoordinate)[1]].checkHasChess()){
             throw new Exception("There is no chess on this coordinate!");
@@ -277,6 +284,7 @@ public class PlayBoard {
             }
         }
     }
+
     public void move(char xCoordinate, char yCoordinate, char direction) throws Exception {
         Integer[] originalSite = new Integer[2];
         originalSite = converter(xCoordinate, yCoordinate);
@@ -287,10 +295,16 @@ public class PlayBoard {
             board[desiredSite[0]][desiredSite[1]].putChess(board[originalSite[0]][originalSite[1]].getChess());
             board[originalSite[0]][originalSite[1]].removeChess();
         }
-
         turnCount++;
         checkWin();
     }
+
+    public boolean checkWhoQuit(String name) {
+        if (Objects.equals(name, "blue")) {
+            return true;
+        } else return Objects.equals(name, "red");
+    }
+
     public Block[][] getBoard(){
         return board;
     }

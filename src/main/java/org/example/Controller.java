@@ -4,6 +4,7 @@ import org.example.model.Block;
 import org.example.model.PlayBoard;
 import org.example.util.Ansi;
 
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Controller {
@@ -97,6 +98,53 @@ public class Controller {
                 view.print(playBoard.getGameState());
                 break;
             }
+
+            boolean inputValid;
+            inputValid = true;
+            while(inputValid) {
+                System.out.println("Do you want to continue the game? (Y/N) ");
+                Scanner input = new Scanner(System.in);
+                String ifContinue = input.nextLine();
+                if (Objects.equals(ifContinue, "N")) {
+                    System.out.println("Do you want to pause or quit? (P/Q) ");
+                    input = new Scanner(System.in);
+                    String pauseOrQuit = input.nextLine();
+                    if (Objects.equals(pauseOrQuit, "P")) {
+                        Block[][] pause = playBoard.getBoard();
+                        System.out.println("Game is paused. Do you want to continue or view the current play board? (C/V) ");
+                        input = new Scanner(System.in);
+                        String conOrView = input.nextLine();
+                        if (Objects.equals(conOrView, "C")) {
+                            inputValid = false;
+                        } else if (Objects.equals(conOrView, "V")) {
+                            view.print(pause);
+                            System.out.println("Do you want to continue or renew the game? (C/R) ");
+                            input = new Scanner(System.in);
+                            String conOrRenew = input.nextLine();
+                            if (Objects.equals("C", conOrRenew)) {
+                                inputValid = false;
+                            } else if(Objects.equals("R", conOrRenew)) {
+                                playBoard = new PlayBoard();
+                                temp = playBoard.getBoard();
+                                view.print(temp);
+                                turn = 1;
+                                inputValid = false;
+                            } else {
+                                System.out.println("Invalid input. Please try again.");
+                            }
+                        }
+                        System.out.println("Invalid input. Please try again.");
+                    } else if (Objects.equals(pauseOrQuit, "Q")) {
+                        if (turn % 2 == 1) {
+                            playBoard.checkWhoQuit("red");
+                        } else { playBoard.checkWhoQuit("blue");}
+                    }
+                    System.out.println("Invalid input. Please try again.");
+                } else if (Objects.equals(ifContinue, "Y"))
+                    inputValid = false;
+                System.out.println("Invalid input. Please try again.");
+            }
+
         }
     }
 
@@ -107,12 +155,6 @@ public class Controller {
         view.print(msg);
         playNewGame();
     }
-
-    public void rule(){}
-    public void giveUp(){}
-    public void quit(){}
-    public void pause(){}
-    public void restart(){}
 
 
     public static void main(String[] args) {
