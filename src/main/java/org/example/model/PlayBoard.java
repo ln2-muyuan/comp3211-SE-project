@@ -6,6 +6,7 @@ import java.util.Objects;
 
 public class PlayBoard {
     private final Block[][] board = new Block[9][7];
+    private String name;
     private Integer turnCount = 0;
     private String gameState = "progressing";
     private HashMap<String, Integer> power;
@@ -253,13 +254,7 @@ public class PlayBoard {
                 gameState = "redWin";
             }
         }
-        if (checkWhoQuit("Blue")) {
-            gameState = "redWin";
-        } else if (checkWhoQuit("red")) {
-            gameState = "blueWin";
-        }
     }
-
 
 
 
@@ -269,7 +264,10 @@ public class PlayBoard {
     public PlayBoard() {
         initialize();
     }
-
+    public PlayBoard(String name) {
+        this.name = name;
+        initialize();
+    }
     public void checkLegalInput(char xCoordinate, char yCoordinate) throws Exception {
         if (!board[converter(xCoordinate, yCoordinate)[0]][converter(xCoordinate, yCoordinate)[1]].checkHasChess()){
             throw new Exception("There is no chess on this coordinate!");
@@ -284,7 +282,6 @@ public class PlayBoard {
             }
         }
     }
-
     public void move(char xCoordinate, char yCoordinate, char direction) throws Exception {
         Integer[] originalSite = new Integer[2];
         originalSite = converter(xCoordinate, yCoordinate);
@@ -298,15 +295,19 @@ public class PlayBoard {
         turnCount++;
         checkWin();
     }
-
-    public boolean checkWhoQuit(String name) {
-        if (Objects.equals(name, "blue")) {
-            return true;
-        } else return Objects.equals(name, "red");
+    public void checkWhoQuit(String name) {
+        if (name.equals("blue")) {
+            gameState = "blueQuit";
+        }
+        else if (name.equals("red")) {
+            gameState = "redQuit";
+        }
     }
-
     public Block[][] getBoard(){
         return board;
+    }
+    public Integer getTurnCount(){
+        return turnCount;
     }
     public String getGameState(){
         return gameState;

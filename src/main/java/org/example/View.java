@@ -7,7 +7,6 @@ public class View {
     private String fixedLengthString(String string, int length) {
         return String.format("%1$"+length+ "s", string);
     }
-
     public void print(Block[][] board) {
         for (int i = 0; i < 9; i++) {
             System.out.print(9 - i +" ");
@@ -49,8 +48,10 @@ public class View {
         }
         System.out.println("           A           B           C           D           E           F           G");
     }
-
     public void print(String string) {
+        System.out.print(string);
+    }
+    public void println(String string) {
         System.out.println(string);
     }
 }
