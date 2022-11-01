@@ -43,6 +43,7 @@ public class AppTest
             playBoard.move('A', '4', 'D');
         }
         catch (Exception e){
+            System.out.println("Caught exception: " + e.getMessage());
             assertEquals("This animal cannot jump over river or go to river!", e.getMessage());
         }
     }
@@ -154,7 +155,11 @@ public class AppTest
             playBoard.move('B', '3', 'W');
         }
         catch (Exception e){
+            System.out.println("Caught exception: " + e.getMessage());
             assertEquals("This animal cannot jump over river or go to river!", e.getMessage());
+        }
+        finally {
+            System.out.println("END");
         }
     }
 

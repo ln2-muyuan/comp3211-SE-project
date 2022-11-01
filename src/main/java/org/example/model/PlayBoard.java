@@ -151,6 +151,9 @@ public class PlayBoard {
             if (board[convertedInput[0]][convertedInput[1]].getChess().getName().equals("Rat")){
                 return true;
             }
+            if (!(board[convertedInput[0]][convertedInput[1]].getChess().getName().equals("Lion") && board[convertedInput[0]][convertedInput[1]].getChess().getName().equals("Tiger") && board[convertedInput[0]][convertedInput[1]].getChess().getName().equals("Rat"))){
+                throw new Exception("This animal cannot jump over river or go to river!");
+            }
         }
         else {
             if ((board[convertedInput[0]][convertedInput[1]].getChess().getName().equals("Lion")) || (board[convertedInput[0]][convertedInput[1]].getChess().getName().equals("Tiger"))){
@@ -158,40 +161,52 @@ public class PlayBoard {
                     if (convertedInput[0] - destination[0] == 1){
                         return true;
                     }
-                    for (int i = 1; i < 4; i++){
-                        if (board[convertedInput[0] - i][convertedInput[1]].checkHasChess()){
-                            throw new Exception("There is a rat in the way! You can't cross the river!");
+                    else{
+                        for (int i = 1; i < 4; i++){
+                            if (board[convertedInput[0] - i][convertedInput[1]].checkHasChess()){
+                                throw new Exception("There is a rat in the way! You can't cross the river!");
+                            }
                         }
+                        return true;
                     }
                 }
                 else if (direction == 'D'){
                     if (destination[1] - convertedInput[1] == 1){
                         return true;
                     }
-                    for (int i = 1; i < 3; i++){
-                        if (board[convertedInput[0]][convertedInput[1] + i].checkHasChess()){
-                            throw new Exception("There is a rat in the way! You can't cross the river!");
+                    else{
+                        for (int i = 1; i < 3; i++){
+                            if (board[convertedInput[0]][convertedInput[1] + i].checkHasChess()){
+                                throw new Exception("There is a rat in the way! You can't cross the river!");
+                            }
                         }
+                        return true;
                     }
                 }
                 else if (direction == 'S'){
                     if (destination[0] - convertedInput[0] == 1){
                         return true;
                     }
-                    for (int i = 1; i < 4; i++){
-                        if (board[convertedInput[0] + i][convertedInput[1]].checkHasChess()){
-                            throw new Exception("There is a rat in the way! You can't cross the river!");
+                    else {
+                        for (int i = 1; i < 4; i++){
+                            if (board[convertedInput[0] + i][convertedInput[1]].checkHasChess()){
+                                throw new Exception("There is a rat in the way! You can't cross the river!");
+                            }
                         }
+                        return true;
                     }
                 }
                 else if (direction == 'A'){
                     if (convertedInput[1] - destination[1] == 1){
                         return true;
                     }
-                    for (int i = 1; i < 3; i++){
-                        if (board[convertedInput[0]][convertedInput[1] - i].checkHasChess()){
-                            throw new Exception("There is a rat in the way! You can't cross the river!");
+                    else {
+                        for (int i = 1; i < 3; i++){
+                            if (board[convertedInput[0]][convertedInput[1] - i].checkHasChess()){
+                                throw new Exception("There is a rat in the way! You can't cross the river!");
+                            }
                         }
+                        return true;
                     }
                 }
             }
@@ -199,7 +214,7 @@ public class PlayBoard {
                 return true;
             }
         }
-        throw new Exception("This animal cannot jump over river or go to river!");
+        return false;
     }
     private boolean isLegalEat(Integer[] convertedInput, char direction) throws Exception {
         Integer[] destination = getDestination(convertedInput, direction);

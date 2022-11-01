@@ -88,7 +88,7 @@ public class Controller {
                                 break;
                             }
                         }
-                        view.println("Invalid input. Please try again.");
+                        view.print("Invalid input. Please input the direction again:");
                     }
                     playBoard.move(xCoordinateC, yCoordinateC, directionC);
                 } catch (Exception e) {
