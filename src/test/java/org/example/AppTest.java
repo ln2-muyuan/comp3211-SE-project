@@ -43,14 +43,13 @@ public class AppTest
             playBoard.move('A', '4', 'D');
         }
         catch (Exception e){
-            System.out.println("Caught exception: " + e.getMessage());
             assertEquals("This animal cannot jump over river or go to river!", e.getMessage());
         }
     }
 
     /**
      * The LION and TIGER can cross the river
-     * Move the chess LION at (A, 9) to (A, 6), and check if the LION can right cross the river
+     * Move the chess LION at (A, 9) to (A, 6), and check if the LION can right cross the river（Vertical direction）
      */
     public void testIsLegalRiverCase2()
     {
@@ -73,7 +72,7 @@ public class AppTest
 
 
     /**
-     * The LION and TIGER cannot cross the river if there is a rat in the river
+     * The LION and TIGER cannot cross the river if there is a rat(enemy) in the river
      * Move the chess TIGER at (A, 1) to (B, 3), move the chess RAT at (A, 7) to (B, 6), and check if the TIGER can right cross the river
      */
     public void testIsLegalRiverCase3()
@@ -95,6 +94,57 @@ public class AppTest
             assertEquals("There is a rat in the way! You can't cross the river!", e.getMessage());
         }
     }
+
+    /**
+     * The LION and TIGER cannot cross the river if there is a rat(own) in the river
+     * Move the chess Lion at (G, 1) to (F, 3), move the chess RAT at (G, 3) to (F, 4), and check if the Lion can right cross the river
+     */
+    public void testIsLegalRiverCase4()
+    {
+        PlayBoard playBoard = new PlayBoard();
+        try{
+            playBoard.move('G', '3', 'W');
+            playBoard.move('G', '9', 'A');
+            playBoard.move('G', '4', 'A');
+            playBoard.move('F', '9', 'D');
+            playBoard.move('G', '1', 'W');
+            playBoard.move('G', '9', 'S');
+            playBoard.move('G', '2', 'W');
+            playBoard.move('G', '8', 'W');
+            playBoard.move('G', '3', 'A');
+            playBoard.move('G', '9', 'A');
+            playBoard.move('F', '3', 'W');
+        }
+        catch (Exception e){
+            assertEquals("There is a rat in the way! You can't cross the river!", e.getMessage());
+        }
+    }
+
+
+    /**
+     * The LION and TIGER can cross the river
+     * Move the chess LION at (G, 1) to (G, 4) to (D, 4), and check if the LION can right cross the river（Horizontal direction）
+     */
+    public void testIsLegalRiverCase5()
+    {
+        PlayBoard playBoard = new PlayBoard();
+        try{
+            playBoard.move('G', '3', 'A');
+            playBoard.move('G', '9', 'A');
+            playBoard.move('G', '1', 'W');
+            playBoard.move('F', '9', 'D');
+            playBoard.move('G', '2', 'W');
+            playBoard.move('G', '9', 'S');
+            playBoard.move('G', '3', 'W');
+            playBoard.move('G', '8', 'W');
+            playBoard.move('G', '4', 'A');
+        }
+        catch (Exception e){
+            assertEquals("This animal cannot jump over river or go to river!", e.getMessage());
+        }
+    }
+
+
 
     /**
      * Test the function of eating opponent pieces (Eat according to the normal rank)
@@ -155,11 +205,7 @@ public class AppTest
             playBoard.move('B', '3', 'W');
         }
         catch (Exception e){
-            System.out.println("Caught exception: " + e.getMessage());
             assertEquals("This animal cannot jump over river or go to river!", e.getMessage());
-        }
-        finally {
-            System.out.println("END");
         }
     }
 
@@ -212,11 +258,30 @@ public class AppTest
         }
     }
 
+
+    /**
+     * Test the warning part that players should not step onto their own chess
+     * Move the chess Tiger onto its own Elephant from (A,1) to (A,3) to see the warning
+     */
+    public void testWrongStep_OnOwnChess()
+    {
+        PlayBoard playBoard = new PlayBoard();
+        try {
+            playBoard.move('A', '1', 'W');
+            playBoard.move('A', '7', 'S');
+            playBoard.move('A', '2', 'W');
+        } catch (Exception e) {
+            assertEquals("You cannot go to your own chess!", e.getMessage());
+        }
+    }
+
+
+
     /**
      * Test the warning part that players should not to enter their own den
      * Move the chess Cat (B,2) to (D,1) to see the warning
      */
-    public void testGoOnOwnDen()
+    public void testWrongStep_OnOwnDen()
     {
         PlayBoard playBoard = new PlayBoard();
         try {
@@ -232,7 +297,24 @@ public class AppTest
 
 
 
-    public void testWin()
+    /**
+     * Test the warning part that players entered a coordinate with no chess pieces
+     */
+    public void testWrongInput_NoChess()
+    {
+        PlayBoard playBoard = new PlayBoard();
+        try {
+            playBoard.checkLegalInput('B',  '7');
+        } catch (Exception e) {
+            assertEquals("There is no chess on this coordinate!", e.getMessage());
+        }
+    }
+
+
+    /**
+     * Test a winning ways to capturing the den
+     */
+    public void testWin_OnDen()
     {
         PlayBoard playBoard = new PlayBoard();
         try {
@@ -248,9 +330,59 @@ public class AppTest
             playBoard.move('G', '5', 'S');
             playBoard.move('D', '7', 'W');
             playBoard.move('A', '7', 'S');
+            System.out.println(playBoard.getGameState());
             playBoard.move('D', '8', 'W');
+            System.out.println(playBoard.getGameState());
         } catch  (Exception e) {
-            assertEquals("redWin", e.getMessage());
+            assertEquals("blueWin", e.getMessage());
+        }
+    }
+
+
+
+    /**
+     * Test winning ways to eat all the opposing team's pieces
+     */
+    public void testWin_EatAll()
+    {
+        PlayBoard playBoard = new PlayBoard();
+        try {
+            playBoard.move('G', '3', 'W');
+            playBoard.move('E', '7', 'D');
+            playBoard.move('G', '4', 'W');
+            playBoard.move('F', '8', 'D');
+            playBoard.move('G', '5', 'W');
+            playBoard.move('C', '7', 'D');
+            playBoard.move('G', '6', 'W');
+            playBoard.move('G', '8', 'S');
+            playBoard.move('G', '1', 'W');
+            playBoard.move('D', '7', 'D');
+            playBoard.move('G', '2', 'W');
+            playBoard.move('G', '9', 'S');
+            playBoard.move('G', '3', 'W');
+            playBoard.move('B', '8', 'S');
+            playBoard.move('G', '4', 'W');
+            playBoard.move('B', '7', 'D');
+            playBoard.move('G', '5', 'W');
+            playBoard.move('C', '7', 'D');
+            playBoard.move('G', '6', 'W');
+            playBoard.move('A', '7', 'D');
+            playBoard.move('G', '7', 'W');
+            playBoard.move('B', '7', 'D');
+            playBoard.move('G', '8', 'A');
+            playBoard.move('A', '9', 'S');
+            playBoard.move('F', '8', 'S');
+            playBoard.move('A', '8', 'S');
+            playBoard.move('F', '7', 'A');
+            playBoard.move('A', '7', 'D');
+            playBoard.move('E', '7', 'A');
+            playBoard.move('B', '7', 'W');
+            playBoard.move('D', '7', 'A');
+            playBoard.move('B', '8', 'S');
+            playBoard.move('C', '7', 'A');
+            System.out.println(playBoard.getGameState());
+        } catch  (Exception e) {
+            assertEquals("blueWin", e.getMessage());
         }
     }
 }
