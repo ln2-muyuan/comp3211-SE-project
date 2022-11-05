@@ -2,36 +2,23 @@ package org.example.model;
 
 public class Block {
     private Chess chess;
-    private String state;
-    private String team;
-    Block(String state, String team){
-        this.state = state;
+    private final Team team;
+    public Block() {
+        this.team = Team.NEUTRAL;
+    }
+    public Block(Team team) {
         this.team = team;
     }
-    void changeState(String state){
-        this.state = state;
-    }
-    public String getState(){
-        return this.state;
-    }
-    void putChess(Chess chess){
+
+    public void putChess(Chess chess) {
         this.chess = chess;
     }
-    void removeChess(){
+
+    public void removeChess() {
         this.chess = null;
     }
-    public Chess getChess(){
-        return this.chess;
-    }
-    public boolean checkHasChess() {
+
+    public boolean haveChess() {
         return this.chess != null;
-    }
-
-    public String getTeam(){
-        return this.team;
-    }
-
-    public void setTeam(String team){
-        this.team = team;
     }
 }

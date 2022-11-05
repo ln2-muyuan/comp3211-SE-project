@@ -1,16 +1,22 @@
 package org.example.model;
 
-public class Chess {
-    private String name;
-    private String team;
-    Chess(String name, String team) {
-        this.name = name;
+public abstract class Chess {
+    private final Team team;
+    private final Integer rank;
+
+    private final Integer canJump = 0;
+    protected Chess(Team team, Integer rank) {
         this.team = team;
+        this.rank = rank;
     }
-    public String getName(){
-        return this.name;
-    }
-    public String getTeam(){
+
+    public Team getTeam(){
         return this.team;
     }
+    public Integer getRank(){
+        return this.rank;
+    }
+    public abstract void eat(Chess chess);
+
+
 }
