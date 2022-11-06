@@ -9,11 +9,9 @@ public class Elephant extends Chess {
     }
 
     @Override
-    public void eat(Chess chess) {
-        if (chess.getRank() < this.getRank()) {
-            chess = null;
-        } else {
-            throw new RuntimeException("Elephant can't eat dog");
+    public void eat(Chess chess) throws Exception {
+        if (chess.getClass().equals(Rat.class)) {
+           throw new Exception("Elephant can't eat rat");
         }
     }
 }

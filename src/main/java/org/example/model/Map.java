@@ -22,7 +22,7 @@ public class Map {
     private final Cat blueCat = new Cat(Team.BLUE);
     private final Rat redRat = new Rat(Team.RED);
     private final Rat blueRat = new Rat(Team.BLUE);
-    private final HashMap<String, Chess> redTeam = new HashMap<String, Chess>() {{
+    public final HashMap<String, Chess> redTeam = new HashMap<String, Chess>() {{
         put("redElephant", redElephant);
         put("redLion", redLion);
         put("redTiger", redTiger);
@@ -32,7 +32,7 @@ public class Map {
         put("redCat", redCat);
         put("redRat", redRat);
     }};
-    private final HashMap<String, Chess> blueTeam = new HashMap<String, Chess>() {{
+    public final HashMap<String, Chess> blueTeam = new HashMap<String, Chess>() {{
         put("blueElephant", blueElephant);
         put("blueLion", blueLion);
         put("blueTiger", blueTiger);
@@ -42,8 +42,6 @@ public class Map {
         put("blueCat", blueCat);
         put("blueRat", blueRat);
     }};
-    private Integer redChessCount = redTeam.size();
-    private Integer blueChessCount = blueTeam.size();
     private final Block[][] Map = new Block[9][7];
     public Map() {
         Map[0][3] = new Den(Team.RED);
@@ -91,14 +89,9 @@ public class Map {
         Map[8][6].putChess(blueLion);
     }
 
+    @Override
+    public String toString() {
 
-
-    public static void main(String[] args) {
-
-
-
+        return "";
     }
-
-
-    
 }

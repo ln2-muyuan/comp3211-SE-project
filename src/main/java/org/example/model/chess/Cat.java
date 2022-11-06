@@ -3,17 +3,14 @@ import org.example.model.Chess;
 import org.example.model.Team;
 
 public class Cat extends Chess {
-
     public Cat(Team team) {
         super(team, 2);
     }
 
     @Override
-    public void eat(Chess chess) {
-        if (chess.getRank() < this.getRank()) {
-            chess = null;
-        } else {
-            throw new RuntimeException("Cat can't eat dog");
+    public void eat(Chess chess) throws Exception {
+        if (chess.getRank() > this.getRank()) {
+            throw new Exception("Cat can't eat " + chess.getClass().getSimpleName());
         }
     }
 }

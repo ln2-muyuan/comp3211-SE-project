@@ -10,11 +10,9 @@ public class Leopard extends Chess {
     }
 
     @Override
-    public void eat(Chess chess) {
-        if (chess.getRank() < this.getRank()) {
-            chess = null;
-        } else {
-            throw new RuntimeException("Leopard can't eat dog");
+    public void eat(Chess chess) throws Exception {
+        if (chess.getRank() > this.getRank()) {
+            throw new Exception("Leopard can't eat " + chess.getClass().getSimpleName());
         }
     }
 }

@@ -9,12 +9,12 @@ public class Rat extends Chess {
     }
 
     @Override
-    public void eat(Chess chess) {
-        if (chess.getRank() < this.getRank()) {
-            chess = null;
-        } else {
-            throw new RuntimeException("Rat can't eat dog");
-        }
+    public void eat(Chess chess) throws Exception {
+        if (!(chess.getClass().equals(Elephant.class) || chess.getClass().equals(Rat.class))) throw new Exception("Rat can't eat " + chess.getClass().getSimpleName());
+    }
+
+    public void swim() {
+        this.state = AnimalState.SWIMMING;
     }
 }
 

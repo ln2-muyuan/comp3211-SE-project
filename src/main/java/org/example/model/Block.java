@@ -1,15 +1,15 @@
 package org.example.model;
 
-public class Block {
+public abstract class Block {
     private Chess chess;
-    private final Team team;
+
+    protected final Team team;
     public Block() {
         this.team = Team.NEUTRAL;
     }
     public Block(Team team) {
         this.team = team;
     }
-
     public void putChess(Chess chess) {
         this.chess = chess;
     }
@@ -21,4 +21,8 @@ public class Block {
     public boolean haveChess() {
         return this.chess != null;
     }
+
+    public abstract String print(Integer index);
+
+//    public abstract String toString(Chess chess);
 }

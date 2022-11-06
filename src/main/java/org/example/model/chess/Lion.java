@@ -9,12 +9,13 @@ public class Lion extends Chess {
     }
 
     @Override
-    public void eat(Chess chess) {
-        if (chess.getRank() < this.getRank()) {
-            chess = null;
-        } else {
-            throw new RuntimeException("Cat can't eat dog");
+    public void eat(Chess chess) throws Exception {
+        if (chess.getRank() > this.getRank()) {
+            throw new Exception("Lion can't eat " + chess.getClass().getSimpleName());
         }
+    }
+
+    public void jump() {
     }
 
 }

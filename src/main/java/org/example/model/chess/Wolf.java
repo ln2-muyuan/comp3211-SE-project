@@ -10,11 +10,9 @@ public class Wolf extends Chess {
     }
 
     @Override
-    public void eat(Chess chess) {
-        if (chess.getRank() < this.getRank()) {
-            chess = null;
-        } else {
-            throw new RuntimeException("Wolf can't eat dog");
+    public void eat(Chess chess) throws Exception {
+        if (chess.getRank() > this.getRank()) {
+            throw new Exception("Wolf can't eat " + chess.getClass().getSimpleName());
         }
     }
 }
