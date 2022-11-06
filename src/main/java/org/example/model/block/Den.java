@@ -16,31 +16,15 @@ public class Den extends Block {
         super(team);
     }
 
-    public String print(Integer index) {
+    public String getBlockLayer(Integer index) {
+        String[] result = den.split("\n");
         String msg = "";
         if (this.team == Team.RED) {
-            msg = Ansi.Red.format("%s", den);
+            msg = Ansi.Red.format("%s", result[index]);
         }
         if (this.team == Team.BLUE) {
-            msg = Ansi.Cyan.format("%s", den);
+            msg = Ansi.Cyan.format("%s", result[index]);
         }
-        String[] result = msg.split("\n");
-        return result[index];
-    }
-
-
-
-
-    public static void main(String[] args) {
-        River river = new River();
-        System.out.print(river.print(0));
-        System.out.print(river.print(1));
-//        Grass grass = new Grass();
-//        System.out.print(grass);
-//        Den den = new Den(Team.RED);
-//        System.out.print(den);
-//        System.out.print(grass);
-//        Trap trap = new Trap(Team.BLUE);
-//        System.out.println(trap);
+        return msg;
     }
 }

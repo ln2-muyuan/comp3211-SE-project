@@ -88,10 +88,21 @@ public class Map {
         Map[8][0].putChess(blueTiger);
         Map[8][6].putChess(blueLion);
     }
+    public String getMap() {
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < 9; i++) {
+            for (int k = 0; k < 3; k++) {
+                for (int j = 0; j < 7; j++) {
+                    result.append(Map[i][j].getBlockLayer(k));
+                }
+                result.append("\n");
+            }
+        }
+        return result.toString();
+    }
 
-    @Override
-    public String toString() {
-
-        return "";
+    public static void main(String[] args) {
+        Map map = new Map();
+        System.out.println(map.getMap());
     }
 }

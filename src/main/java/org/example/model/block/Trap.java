@@ -1,7 +1,6 @@
 package org.example.model.block;
 
 import org.example.model.Block;
-import org.example.model.Chess;
 import org.example.model.Team;
 import org.example.util.Ansi;
 
@@ -17,12 +16,9 @@ public class Trap extends Block {
     }
 
     @Override
-    public String print(Integer index) {
-        String msg = Ansi.Yellow.format("%s", trap);
-        String[] result = msg.split("\n");
-        return result[index];
+    public String getBlockLayer(Integer index) {
+        String[] result = trap.split("\n");
+        String msg = Ansi.Yellow.format("%s", result[index]);
+        return msg;
     }
-
-
-
 }

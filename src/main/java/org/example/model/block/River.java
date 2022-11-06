@@ -1,7 +1,6 @@
 package org.example.model.block;
 
 import org.example.model.Block;
-import org.example.model.Chess;
 import org.example.util.Ansi;
 
 public class River extends Block {
@@ -10,16 +9,25 @@ public class River extends Block {
                 |||     |||
                 |||  -  |||
                 """;
+
+
     public River() {
         super();
     }
 
     @Override
-    public String print(Integer index) {
-        String msg = Ansi.Blue.format("%s", river);
-        String[] result = msg.split("\n");
-        return result[index];
+    public String getBlockLayer(Integer index) {
+        if (this.hasChess() && index == 1) {
+            return Ansi.Blue.format("||| %s |||", this.chess.getClass().getSimpleName());
+        }
+        else {
+            String[] result = river.split("\n");
+            String msg = Ansi.Blue.format("%s", result[index]);
+            return msg;
+        }
+
     }
+
 
 
 }
