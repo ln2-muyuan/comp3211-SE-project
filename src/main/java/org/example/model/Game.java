@@ -8,7 +8,7 @@ import org.example.model.chess.Tiger;
 
 public class Game {
     private final Map map = new Map();
-    enum Direction {
+    public enum Direction {
         UP, DOWN, LEFT, RIGHT
     }
     enum MovementType {
@@ -17,12 +17,14 @@ public class Game {
         WATERtoWATER,
         WATERtoLAND,
     }
+
+    private Integer turnCount = 0;
     public void move(Integer x, Integer y, Direction direction) throws Exception {
         MovementType movement = getMovementType(x, y, direction);
         Integer[] nextPosition = getNextPosition(x, y, direction);
         Chess chess = map.getChess(x, y);
-        boolean EatFlag = checkEat(x, y, direction);
-        if (EatFlag) {
+        boolean meetAnimal = checkMeetAnimal(x, y, direction);
+        if (meetAnimal) {
             chess.eat(map.getChess(nextPosition[0], nextPosition[1]));
         }
         switch (movement) {
@@ -51,8 +53,8 @@ public class Game {
         MovementType movement = getMovementType(nextX, nextY, direction);
         Integer[] nextPosition = getNextPosition(nextX, nextY, direction);
         Chess chess = map.getChess(x, y);
-        boolean EatFlag = checkEat(nextX, nextY, direction);
-        if (EatFlag) {
+        boolean meetAnimal = checkMeetAnimal(nextX, nextY, direction);
+        if (meetAnimal) {
             chess.eat(map.getChess(nextPosition[0], nextPosition[1]));
         }
         switch (movement) {
@@ -60,10 +62,6 @@ public class Game {
             case WATERtoLAND -> map.putChess(nextPosition[0], nextPosition[1], chess);
         }
     }
-
-
-
-
     public MovementType getMovementType(Integer x, Integer y, Direction direction) {
         Block block = this.map.getBlock(x, y);
         Integer[] nextPosition = getNextPosition(x, y, direction);
@@ -78,7 +76,7 @@ public class Game {
             return MovementType.LANDtoLAND;
         }
     }
-    public boolean checkEat(Integer x, Integer y, Direction direction) {
+    public boolean checkMeetAnimal(Integer x, Integer y, Direction direction) {
         Integer[] nextPosition = getNextPosition(x, y, direction);
         Block nextBlock = this.map.getBlock(nextPosition[0], nextPosition[1]);
         return nextBlock.hasChess();
@@ -91,26 +89,24 @@ public class Game {
             case RIGHT -> new Integer[]{x, y + 1};
         };
     }
+    public void checkLegalInput(Integer xCoordinate, Integer yCoordinate) throws Exception {
+        if (!map.getBlock(xCoordinate, yCoordinate).hasChess()) {
+            throw new Exception("There is no chess on this coordinate!");
+        }
+        if (turnCount % 2 == 0){
+            if (map.getBlock(xCoordinate, yCoordinate).getChess().getTeam() != Team.RED) {
+                throw new Exception("It's not your turn!");
+            }
+        } else {
+            if (map.getBlock(xCoordinate, yCoordinate).getChess().getTeam() != Team.BLUE) {
+                throw new Exception("It's not your turn!");
+            }
+        }
+    }
 
     public void printMap() {
         System.out.println(map.getMap());
-
     }
 
-    public static void main(String[] args) {
-        Game game = new Game();
-        try {
-            game.move(0, 0, Direction.RIGHT);
 
-            game.move(1, 1, Direction.UP);
-
-        }
-        catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-
-
-
-        game.printMap();
-    }
 }
