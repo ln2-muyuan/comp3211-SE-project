@@ -11,6 +11,9 @@ public class Leopard extends Chess {
 
     @Override
     public void eat(Chess chess) throws Exception {
+        if (chess.getState() == AnimalState.TRAPPED) {
+            return;
+        }
         if (chess.getRank() > this.getRank()) {
             throw new Exception("Leopard can't eat " + chess.getClass().getSimpleName());
         }

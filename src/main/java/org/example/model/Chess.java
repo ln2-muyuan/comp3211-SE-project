@@ -5,7 +5,7 @@ import org.example.model.chess.AnimalState;
 public abstract class Chess {
     private final Team team;
     private final Integer rank;
-    protected AnimalState state;
+    private AnimalState state;
 
     protected Chess(Team team, Integer rank) {
         this.team = team;
@@ -18,6 +18,12 @@ public abstract class Chess {
     }
     public Integer getRank(){
         return this.rank;
+    }
+    public AnimalState getState() {
+        return this.state;
+    }
+    public void setState(AnimalState state) {
+        this.state = state;
     }
     public abstract void eat(Chess chess) throws Exception;
 

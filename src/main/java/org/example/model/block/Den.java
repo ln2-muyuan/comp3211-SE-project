@@ -1,7 +1,6 @@
 package org.example.model.block;
 
 import org.example.model.Block;
-import org.example.model.Chess;
 import org.example.model.Team;
 import org.example.util.Ansi;
 

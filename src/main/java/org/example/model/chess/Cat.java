@@ -1,4 +1,5 @@
 package org.example.model.chess;
+
 import org.example.model.Chess;
 import org.example.model.Team;
 
@@ -9,6 +10,9 @@ public class Cat extends Chess {
 
     @Override
     public void eat(Chess chess) throws Exception {
+        if (chess.getState() == AnimalState.TRAPPED) {
+            return;
+        }
         if (chess.getRank() > this.getRank()) {
             throw new Exception("Cat can't eat " + chess.getClass().getSimpleName());
         }

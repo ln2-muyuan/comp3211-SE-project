@@ -10,6 +10,12 @@ public class Lion extends Chess {
 
     @Override
     public void eat(Chess chess) throws Exception {
+        if (chess.getState() == AnimalState.TRAPPED) {
+            return;
+        }
+        if (chess.getState() == AnimalState.SWIMMING) {
+            throw new Exception("The animal cannot jump over a swimming rat");
+        }
         if (chess.getRank() > this.getRank()) {
             throw new Exception("Lion can't eat " + chess.getClass().getSimpleName());
         }

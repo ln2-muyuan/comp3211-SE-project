@@ -2,7 +2,6 @@ package org.example.model;
 import org.example.model.block.*;
 import org.example.model.chess.*;
 
-
 import java.util.HashMap;
 
 public class Map {
@@ -88,6 +87,23 @@ public class Map {
         Map[8][0].putChess(blueTiger);
         Map[8][6].putChess(blueLion);
     }
+
+    public Block getBlock(Integer x, Integer y) {
+        return Map[x][y];
+    }
+
+    public Chess getChess(Integer x, Integer y) {
+        return Map[x][y].getChess();
+    }
+
+    public void putChess(Integer x, Integer y, Chess chess) {
+        Map[x][y].putChess(chess);
+    }
+
+    public void removeChess(Integer x, Integer y) {
+        Map[x][y].removeChess();
+    }
+
     public String getMap() {
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < 9; i++) {
@@ -101,8 +117,4 @@ public class Map {
         return result.toString();
     }
 
-    public static void main(String[] args) {
-        Map map = new Map();
-        System.out.println(map.getMap());
-    }
 }

@@ -3,6 +3,7 @@ package org.example.model;
 public abstract class Block {
     protected Chess chess;
     protected final Team team;
+
     public Block() {
         this.team = Team.NEUTRAL;
     }
@@ -18,6 +19,10 @@ public abstract class Block {
     }
     public boolean hasChess() {
         return this.chess != null;
+    }
+
+    public Chess getChess() {
+        return this.chess;
     }
     protected String fixedLengthString(String string, int length) {
         return String.format("%1$" + length+ "s", string);
