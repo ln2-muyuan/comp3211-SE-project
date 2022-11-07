@@ -17,9 +17,5 @@ public class Rat extends Chess {
         if (this.getState() == AnimalState.SWIMMING && chess.getState() != AnimalState.SWIMMING) throw new Exception("Rat can't eat " + chess.getClass().getSimpleName() + " when swimming");
         if (this.getState() == AnimalState.NORMAL && chess.getState() == AnimalState.SWIMMING) throw new Exception("Rat on land can't eat a swimming rat");
     }
-
-    public void swim() {
-        this.setState(AnimalState.SWIMMING);
-    }
 }
 

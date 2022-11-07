@@ -17,57 +17,53 @@ public class Game {
         WATERtoWATER,
         WATERtoLAND,
     }
-    public void move(Integer x, Integer y, Direction direction) {
+    public void move(Integer x, Integer y, Direction direction) throws Exception {
         MovementType movement = getMovementType(x, y, direction);
         Integer[] nextPosition = getNextPosition(x, y, direction);
         Chess chess = map.getChess(x, y);
         boolean EatFlag = checkEat(x, y, direction);
         if (EatFlag) {
-            try {
-                chess.eat(map.getChess(nextPosition[0], nextPosition[1]));
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-                return;
-            }
+            chess.eat(map.getChess(nextPosition[0], nextPosition[1]));
         }
         switch (movement) {
             case LANDtoLAND:
-                try {
-                    chess.walk();
-                    map.putChess(nextPosition[0], nextPosition[1], chess);
-                    map.removeChess(x, y);
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                    return;
-                }
+            case WATERtoWATER:
+                chess.move();
                 break;
             case LANDtoWATER:
                 if (chess instanceof Rat) {
-                    map.putChess(nextPosition[0], nextPosition[1], chess);
-                    map.removeChess(x, y);
+                    chess.move();
                     break;
                 }
                 else if (chess instanceof Tiger || chess instanceof Lion) {
-                    map.putChess(nextPosition[0], nextPosition[1], chess);
+                    move(x, y, nextPosition[0], nextPosition[1], direction);
                     map.removeChess(x, y);
-                    move(nextPosition[0], nextPosition[1], direction);
-                }
-                else {
-                    System.out.println("The animal can neither swim or jump!");
                     return;
                 }
-                break;
-            case WATERtoWATER:
-                map.putChess(nextPosition[0], nextPosition[1], chess);
-                map.removeChess(x, y);
-                move(nextPosition[0], nextPosition[1], direction);
-                break;
-            case WATERtoLAND:
-                map.putChess(nextPosition[0], nextPosition[1], chess);
-                map.removeChess(x, y);
-                break;
+                else {
+                    throw new Exception("The animal can neither swim or jump!");
+                }
+        }
+        map.removeChess(x, y);
+        map.putChess(nextPosition[0], nextPosition[1], chess);
+    }
+    public void move(Integer x, Integer y, Integer nextX, Integer nextY, Direction direction) throws Exception {
+        MovementType movement = getMovementType(nextX, nextY, direction);
+        Integer[] nextPosition = getNextPosition(nextX, nextY, direction);
+        Chess chess = map.getChess(x, y);
+        boolean EatFlag = checkEat(nextX, nextY, direction);
+        if (EatFlag) {
+            chess.eat(map.getChess(nextPosition[0], nextPosition[1]));
+        }
+        switch (movement) {
+            case WATERtoWATER -> move(x, y, nextPosition[0], nextPosition[1], direction);
+            case WATERtoLAND -> map.putChess(nextPosition[0], nextPosition[1], chess);
         }
     }
+
+
+
+
     public MovementType getMovementType(Integer x, Integer y, Direction direction) {
         Block block = this.map.getBlock(x, y);
         Integer[] nextPosition = getNextPosition(x, y, direction);
@@ -103,15 +99,18 @@ public class Game {
 
     public static void main(String[] args) {
         Game game = new Game();
+        try {
+            game.move(0, 0, Direction.RIGHT);
 
-        game.move(2, 0, Direction.RIGHT);
-        game.move(2, 1, Direction.DOWN);
-        game.move(0, 0, Direction.DOWN);
-        game.move(1, 0, Direction.DOWN);
-        game.move(2, 0, Direction.DOWN);
-        game.move(3, 0, Direction.DOWN);
-        game.move(4, 0, Direction.RIGHT);
-        game.move(4, 3, Direction.RIGHT);
+            game.move(1, 1, Direction.UP);
+
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+
+
         game.printMap();
     }
 }

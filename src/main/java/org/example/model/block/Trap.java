@@ -17,8 +17,13 @@ public class Trap extends Block {
 
     @Override
     public String getBlockLayer(Integer index) {
-        String[] result = trap.split("\n");
-        String msg = Ansi.Yellow.format("%s", result[index]);
-        return msg;
+        if (this.hasChess() && index == 1) {
+            return Ansi.Yellow.format("|| %s ||", this.chess.getClass().getSimpleName());
+        }
+        else {
+            String[] result = trap.split("\n");
+            String msg = Ansi.Yellow.format("%s", result[index]);
+            return msg;
+        }
     }
 }

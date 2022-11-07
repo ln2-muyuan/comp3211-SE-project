@@ -4,7 +4,6 @@ import org.example.model.Chess;
 import org.example.model.Team;
 
 public class Wolf extends Chess {
-
     public Wolf(Team team) {
         super(team, 4);
     }

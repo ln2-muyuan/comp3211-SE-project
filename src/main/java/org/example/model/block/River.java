@@ -25,10 +25,6 @@ public class River extends Block {
             String msg = Ansi.Blue.format("%s", result[index]);
             return msg;
         }
-
     }
-
-
-
 }
 

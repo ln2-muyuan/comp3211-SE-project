@@ -4,7 +4,6 @@ import org.example.model.Chess;
 import org.example.model.Team;
 
 public class Elephant extends Chess {
-
     public Elephant(Team team) {
         super(team, 8);
     }

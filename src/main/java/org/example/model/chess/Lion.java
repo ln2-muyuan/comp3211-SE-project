@@ -20,8 +20,4 @@ public class Lion extends Chess {
             throw new Exception("Lion can't eat " + chess.getClass().getSimpleName());
         }
     }
-
-    public void jump() {
-    }
-
 }

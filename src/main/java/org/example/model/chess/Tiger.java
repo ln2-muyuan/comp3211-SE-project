@@ -4,7 +4,6 @@ import org.example.model.Chess;
 import org.example.model.Team;
 
 public class Tiger extends Chess {
-
     public Tiger(Team team) {
         super(team, 6);
     }
@@ -20,10 +19,6 @@ public class Tiger extends Chess {
         if (chess.getRank() > this.getRank()) {
             throw new Exception("Lion can't eat " + chess.getClass().getSimpleName());
         }
-    }
-
-    @Override
-    public void jump() {
     }
 }
 

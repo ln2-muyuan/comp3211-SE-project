@@ -13,7 +13,6 @@ public abstract class Block {
     public void putChess(Chess chess) {
         this.chess = chess;
     }
-
     public void removeChess() {
         this.chess = null;
     }
