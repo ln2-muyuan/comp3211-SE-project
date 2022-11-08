@@ -17,8 +17,16 @@ public class Game {
         WATERtoWATER,
         WATERtoLAND,
     }
+    public enum GameState {
+        REDTURN,
+        BLUETURN,
+        REDWIN,
+        BLUEWIN,
+    }
 
     private Integer turnCount = 0;
+    private Integer redChessCount = 8;
+    private Integer blueChessCount = 8;
     public void move(Integer x, Integer y, Direction direction) throws Exception {
         MovementType movement = getMovementType(x, y, direction);
         Integer[] nextPosition = getNextPosition(x, y, direction);
@@ -26,6 +34,12 @@ public class Game {
         boolean meetAnimal = checkMeetAnimal(x, y, direction);
         if (meetAnimal) {
             chess.eat(map.getChess(nextPosition[0], nextPosition[1]));
+            if (chess.getTeam() == Team.RED) {
+                blueChessCount--;
+            }
+            else {
+                redChessCount--;
+            }
         }
         switch (movement) {
             case LANDtoLAND:
@@ -39,15 +53,17 @@ public class Game {
                 }
                 else if (chess instanceof Tiger || chess instanceof Lion) {
                     move(x, y, nextPosition[0], nextPosition[1], direction);
-                    map.removeChess(x, y);
+                    map.removeChess(x, y);      // remove chess from old position here
+                    turnCount++;
                     return;
                 }
                 else {
                     throw new Exception("The animal can neither swim or jump!");
                 }
-        }
+       }
         map.removeChess(x, y);
         map.putChess(nextPosition[0], nextPosition[1], chess);
+        turnCount++;
     }
     public void move(Integer x, Integer y, Integer nextX, Integer nextY, Direction direction) throws Exception {
         MovementType movement = getMovementType(nextX, nextY, direction);
@@ -103,10 +119,21 @@ public class Game {
             }
         }
     }
-
     public void printMap() {
         System.out.println(map.getMap());
     }
-
-
+    public GameState getGameState() {
+        if (redChessCount == 0) {
+            return GameState.BLUEWIN;
+        }
+        else if (blueChessCount == 0) {
+            return GameState.REDWIN;
+        }
+        else if (turnCount % 2 == 0) {
+            return GameState.REDTURN;
+        }
+        else {
+            return GameState.BLUETURN;
+        }
+    }
 }

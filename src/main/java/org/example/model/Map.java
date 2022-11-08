@@ -5,42 +5,6 @@ import org.example.model.chess.*;
 import java.util.HashMap;
 
 public class Map {
-    private final Elephant redElephant = new Elephant(Team.RED);
-    private final Elephant blueElephant = new Elephant(Team.BLUE);
-    private final Lion redLion = new Lion(Team.RED);
-    private final Lion blueLion = new Lion(Team.BLUE);
-    private final Tiger redTiger = new Tiger(Team.RED);
-    private final Tiger blueTiger = new Tiger(Team.BLUE);
-    private final Leopard redLeopard = new Leopard(Team.RED);
-    private final Leopard blueLeopard = new Leopard(Team.BLUE);
-    private final Wolf redWolf = new Wolf(Team.RED);
-    private final Wolf blueWolf = new Wolf(Team.BLUE);
-    private final Dog redDog = new Dog(Team.RED);
-    private final Dog blueDog = new Dog(Team.BLUE);
-    private final Cat redCat = new Cat(Team.RED);
-    private final Cat blueCat = new Cat(Team.BLUE);
-    private final Rat redRat = new Rat(Team.RED);
-    private final Rat blueRat = new Rat(Team.BLUE);
-    public final HashMap<String, Chess> redTeam = new HashMap<String, Chess>() {{
-        put("redElephant", redElephant);
-        put("redLion", redLion);
-        put("redTiger", redTiger);
-        put("redLeopard", redLeopard);
-        put("redWolf", redWolf);
-        put("redDog", redDog);
-        put("redCat", redCat);
-        put("redRat", redRat);
-    }};
-    public final HashMap<String, Chess> blueTeam = new HashMap<String, Chess>() {{
-        put("blueElephant", blueElephant);
-        put("blueLion", blueLion);
-        put("blueTiger", blueTiger);
-        put("blueLeopard", blueLeopard);
-        put("blueWolf", blueWolf);
-        put("blueDog", blueDog);
-        put("blueCat", blueCat);
-        put("blueRat", blueRat);
-    }};
     private final Block[][] Map = new Block[9][7];
     public Map() {
         Map[0][3] = new Den(Team.RED);
@@ -70,21 +34,37 @@ public class Map {
                 }
             }
         }
+        Lion redLion = new Lion(Team.RED);
         Map[0][0].putChess(redLion);
+        Tiger redTiger = new Tiger(Team.RED);
         Map[0][6].putChess(redTiger);
+        Dog redDog = new Dog(Team.RED);
         Map[1][1].putChess(redDog);
+        Cat redCat = new Cat(Team.RED);
         Map[1][5].putChess(redCat);
+        Rat redRat = new Rat(Team.RED);
         Map[2][0].putChess(redRat);
+        Leopard redLeopard = new Leopard(Team.RED);
         Map[2][2].putChess(redLeopard);
+        Wolf redWolf = new Wolf(Team.RED);
         Map[2][4].putChess(redWolf);
+        Elephant redElephant = new Elephant(Team.RED);
         Map[2][6].putChess(redElephant);
+        Elephant blueElephant = new Elephant(Team.BLUE);
         Map[6][0].putChess(blueElephant);
+        Wolf blueWolf = new Wolf(Team.BLUE);
         Map[6][2].putChess(blueWolf);
+        Leopard blueLeopard = new Leopard(Team.BLUE);
         Map[6][4].putChess(blueLeopard);
+        Rat blueRat = new Rat(Team.BLUE);
         Map[6][6].putChess(blueRat);
+        Cat blueCat = new Cat(Team.BLUE);
         Map[7][1].putChess(blueCat);
+        Dog blueDog = new Dog(Team.BLUE);
         Map[7][5].putChess(blueDog);
+        Tiger blueTiger = new Tiger(Team.BLUE);
         Map[8][0].putChess(blueTiger);
+        Lion blueLion = new Lion(Team.BLUE);
         Map[8][6].putChess(blueLion);
     }
     public Block getBlock(Integer x, Integer y) {
@@ -97,8 +77,11 @@ public class Map {
         if (Map[x][y] instanceof River){
             chess.setState(Chess.AnimalState.SWIMMING);
         }
-        if (Map[x][y] instanceof Trap){
+        else if (Map[x][y] instanceof Trap){
             chess.setState(Chess.AnimalState.TRAPPED);
+        }
+        else if (Map[x][y] instanceof Grass){
+            chess.setState(Chess.AnimalState.NORMAL);
         }
         Map[x][y].putChess(chess);
     }
