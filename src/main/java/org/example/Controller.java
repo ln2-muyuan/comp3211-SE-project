@@ -33,7 +33,6 @@ public class Controller {
         }
         return coordinates;
     }
-
     private void newGame() {
         View.print("Please enter your new game's name: ");
         while (true) {
@@ -67,7 +66,6 @@ public class Controller {
     }
 
     private void continueGame(Game game) {
-
         game.printMap();
         while (true) {
             if (game.getGameState() == Game.GameState.REDTURN) {
@@ -156,6 +154,52 @@ public class Controller {
                     View.println(" Please try again.");
                 }
             }
+
+
+            while(true) {
+                View.print("Do you want to continue the game? (Y/N) ");
+                Scanner input = new Scanner(System.in);
+                String ifContinue = input.nextLine();
+                if (ifContinue.equals("N")) {
+                    View.print("Do you want to pause or quit? (P/Q) ");
+                    input = new Scanner(System.in);
+                    String pauseOrQuit = input.nextLine();
+                    //pause situation
+                    if (pauseOrQuit.equals("P")) {
+                        View.println("The game is paused. You can continue the game in 'Load game' menu. ");
+                        return;
+                    }
+                    //quit situation
+                    else if (pauseOrQuit.equals("Q")) {
+                        if (game.getGameState() == Game.GameState.REDTURN) {
+                            game.setGameState(Game.GameState.REDQUIT);
+                        } else {game.setGameState(Game.GameState.BLUEQUIT);}
+                    }
+                    else {
+                        View.println("Invalid input. Please try again.");
+                    }
+                }
+                else if (ifContinue.equals("Y"))
+                    break;
+                else{
+                    View.println("Invalid input. Please try again.");
+                }
+            }
+
+            //check whether the game is over
+//            if (!playBoard.getGameState().equals("progressing")){
+//                String red = new Ansi(Ansi.RED, Ansi.ITALIC).format("Red wins!");
+//                String blue = new Ansi(Ansi.BLUE, Ansi.ITALIC).format("Blue wins!");
+//                switch (playBoard.getGameState()) {
+//                    case "redWin" -> view.println(red);
+//                    case "blueWin" -> view.println(blue);
+//                    case "redQuit" -> view.println("Red quits. " + blue);
+//                    case "blueQuit" -> view.println("Blue quits. " + red);
+//                }
+//                break;
+//            }
+
+
 
             game.printMap();
 

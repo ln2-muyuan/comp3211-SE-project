@@ -22,11 +22,17 @@ public class Game {
         BLUETURN,
         REDWIN,
         BLUEWIN,
+        REDQUIT,
+        BLUEQUIT,
     }
+    private GameState gameState = GameState.REDTURN;
     private Integer turnCount = 0;
     private Integer redChessCount = 8;
     private Integer blueChessCount = 8;
+    public Game() {
+    }
     public void move(Integer x, Integer y, Direction direction) throws Exception {
+        updateGameState();
         MovementType movement = getMovementType(x, y, direction);
         Integer[] nextPosition = getNextPosition(x, y, direction);
         Chess chess = map.getChess(x, y);
@@ -62,6 +68,7 @@ public class Game {
        }
         map.removeChess(x, y);
         map.putChess(nextPosition[0], nextPosition[1], chess);
+        updateGameState();
         turnCount++;
     }
     public void move(Integer x, Integer y, Integer nextX, Integer nextY, Direction direction) throws Exception {
@@ -121,20 +128,27 @@ public class Game {
     public void printMap() {
         System.out.println(map.getMap());
     }
-    public GameState getGameState() {
+    public void updateGameState() {
+        if (turnCount % 2 == 0) {
+            gameState = GameState.REDTURN;
+        }
+        else if (turnCount % 2 == 1) {
+            gameState = GameState.BLUETURN;
+        }
         if (redChessCount == 0) {
-            return GameState.BLUEWIN;
+            gameState = GameState.BLUEWIN;
         }
         else if (blueChessCount == 0) {
-            return GameState.REDWIN;
-        }
-        else if (turnCount % 2 == 0) {
-            return GameState.REDTURN;
-        }
-        else {
-            return GameState.BLUETURN;
+            gameState = GameState.REDWIN;
         }
     }
+    public GameState getGameState() {
+        return gameState;
+    }
+    public void setGameState(GameState gameState) {
+        this.gameState = gameState;
+    }
+
 
     /**
      * A quick start here without any input validation
