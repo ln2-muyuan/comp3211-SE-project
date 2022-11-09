@@ -65,7 +65,7 @@ public class Game {
                 else {
                     throw new Exception("The animal can neither swim or jump!");
                 }
-       }
+        }
         map.removeChess(x, y);
         map.putChess(nextPosition[0], nextPosition[1], chess);
         updateGameState();
@@ -161,9 +161,14 @@ public class Game {
             game.move(2, 0, Game.Direction.DOWN);
             game.move(3, 0, Game.Direction.DOWN);
             game.move(1, 0, Game.Direction.DOWN);
-            game.move(2, 0, Game.Direction.DOWN);
-            game.move(3, 0, Game.Direction.RIGHT);
-            game.move(3, 3, Game.Direction.RIGHT);
+            game.move(2, 0, Game.Direction.RIGHT);
+            game.move(7, 1, Game.Direction.UP);
+            game.move(2, 1, Game.Direction.DOWN);
+            game.move(6, 1, Game.Direction.RIGHT);
+            game.move(6, 2, Game.Direction.RIGHT);
+            game.move(6, 3, Game.Direction.DOWN);
+            game.move(7, 5, Game.Direction.LEFT);
+            game.move(7, 4, Game.Direction.LEFT);
             game.printMap();
         } catch (Exception e) {
             System.out.println(e.getMessage());

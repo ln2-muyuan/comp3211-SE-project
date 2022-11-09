@@ -27,6 +27,7 @@ public class AppTest {
             game.move(6, 0, Game.Direction.UP);
             game.move(0, 0, Game.Direction.RIGHT);
             game.move(5, 0, Game.Direction.RIGHT);
+            game.printMap();
         } catch (Exception e) {
             Assert.assertEquals("The animal can neither swim or jump!", e.getMessage());
         }
@@ -47,7 +48,30 @@ public class AppTest {
             game.move(2, 0, Game.Direction.DOWN);
             game.move(3, 0, Game.Direction.RIGHT);
             game.move(3, 3, Game.Direction.RIGHT);
+            game.printMap();
         } catch (Exception e) {
         }
     }
+
+    @Test
+    public void testIsLegalRiverCase3() {
+        Game game = new Game();
+        try {
+            game.move(0, 0, Game.Direction.DOWN);
+            game.move(2, 0, Game.Direction.DOWN);
+            game.move(3, 0, Game.Direction.DOWN);
+            game.move(1, 0, Game.Direction.DOWN);
+            game.move(2, 0, Game.Direction.RIGHT);
+            game.move(7, 1, Game.Direction.UP);
+            game.move(2, 1, Game.Direction.DOWN);
+            game.move(6, 1, Game.Direction.RIGHT);
+            game.move(6, 2, Game.Direction.RIGHT);
+            game.move(6, 3, Game.Direction.DOWN);
+            game.move(7, 5, Game.Direction.LEFT);
+            game.move(7, 4, Game.Direction.LEFT);
+            game.printMap();
+        } catch (Exception e) {
+        }
+    }
+
 }
