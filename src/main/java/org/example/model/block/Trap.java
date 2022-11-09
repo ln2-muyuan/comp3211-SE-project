@@ -18,12 +18,16 @@ public class Trap extends Block {
     @Override
     public String getBlockLayer(Integer index) {
         if (this.hasChess() && index == 1) {
-            return Ansi.Yellow.format("|| %s ||", this.chess.getClass().getSimpleName());
+            if (this.chess.getTeam() == Team.RED) {
+                return Ansi.YELLOW + "||" + Ansi.RED + fixedLengthString(this.chess.getClass().getSimpleName(),7) + Ansi.YELLOW + "||";
+            }
+            else {
+                return Ansi.YELLOW + "||" + Ansi.CYAN + fixedLengthString(this.chess.getClass().getSimpleName(),7) + Ansi.YELLOW + "||";
+            }
         }
         else {
             String[] result = trap.split("\n");
-            String msg = Ansi.Yellow.format("%s", result[index]);
-            return msg;
+            return Ansi.Yellow.format("%s", result[index]);
         }
     }
 }

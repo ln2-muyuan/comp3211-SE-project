@@ -19,15 +19,14 @@ public class Grass extends Block {
     public String getBlockLayer(Integer index) {
         if (this.hasChess() && index == 1) {
             if (this.chess.getTeam() == Team.RED) {
-                return Ansi.Red.format("|%s|", fixedLengthString(this.chess.getClass().getSimpleName(),9));
+                return Ansi.GREEN + "|" + Ansi.RED + fixedLengthString(this.chess.getClass().getSimpleName(),9) + Ansi.GREEN + "|";
             }
-            if (this.chess.getTeam() == Team.BLUE) {
-                return Ansi.Cyan.format("|%s|", fixedLengthString(this.chess.getClass().getSimpleName(),9));
+            else {
+                return Ansi.GREEN + "|" + Ansi.CYAN + fixedLengthString(this.chess.getClass().getSimpleName(),9) + Ansi.GREEN + "|";
             }
         }
         String[] result = grass.split("\n");
-        String msg = Ansi.Green.format("%s", result[index]);
-        return msg;
+        return Ansi.Green.format("%s", result[index]);
     }
 
 }

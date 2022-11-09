@@ -147,6 +147,7 @@ public class Controller {
                     default -> throw new IllegalStateException("Unexpected value: " + directionC);
                 }
                 try {
+                    //check whether users' input direction is correct(whether the index will be out of bound)
                     game.move(xCoordinate, yCoordinate, direction);
                     break;
                 }
