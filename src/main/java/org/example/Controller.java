@@ -68,7 +68,7 @@ public class Controller {
 
     private void continueGame(Game game) {
 
-
+        game.printMap();
         while (true) {
             if (game.getGameState() == Game.GameState.REDTURN) {
                 String red = new Ansi(Ansi.RED, Ansi.ITALIC).format("Red's turn");
@@ -78,84 +78,85 @@ public class Controller {
                 View.println(blue);
             }
 
-            //check whether users' input coordinate is correct
-            char xCoordinateC = ' ';
-            char yCoordinateC = ' ';
-            while (true){
-                while (true) {
-                    View.print("Choose an X Coordinate (A, B, C, D, E, F, G): ");
-                    Scanner input = new Scanner(System.in);
-                    String xCoordinateS = input.nextLine();
-                    xCoordinateC = xCoordinateS.charAt(0);
-                    int len = xCoordinateS.length();
-                    if (len == 1){
-                        if (xCoordinateC == 'A' || xCoordinateC == 'B' || xCoordinateC == 'C' || xCoordinateC == 'D' || xCoordinateC == 'E' || xCoordinateC == 'F' || xCoordinateC == 'G') {
-                            break;
+            while (true) {
+                //check whether users' input coordinate is correct
+                char xCoordinateC = ' ';
+                char yCoordinateC = ' ';
+                while (true){
+                    while (true) {
+                        View.print("Choose an X Coordinate (A, B, C, D, E, F, G): ");
+                        Scanner input = new Scanner(System.in);
+                        String xCoordinateS = input.nextLine();
+                        xCoordinateC = xCoordinateS.charAt(0);
+                        int len = xCoordinateS.length();
+                        if (len == 1){
+                            if (xCoordinateC == 'A' || xCoordinateC == 'B' || xCoordinateC == 'C' || xCoordinateC == 'D' || xCoordinateC == 'E' || xCoordinateC == 'F' || xCoordinateC == 'G') {
+                                break;
+                            }
                         }
+                        View.println("Invalid input. Please try again.");
                     }
-                    View.println("Invalid input. Please try again.");
-                }
-                while (true) {
-                    View.print("Choose a Y Coordinate (1, 2, 3, 4, 5, 6, 7, 8, 9): ");
-                    Scanner input = new Scanner(System.in);
-                    String yCoordinateS = input.nextLine();
-                    yCoordinateC = yCoordinateS.charAt(0);
-                    int len = yCoordinateS.length();
-                    if (len == 1){
-                        if (yCoordinateC == '1' || yCoordinateC == '2' || yCoordinateC == '3' || yCoordinateC == '4' || yCoordinateC == '5' || yCoordinateC == '6' || yCoordinateC == '7' || yCoordinateC == '8' || yCoordinateC == '9') {
-                            break;
+                    while (true) {
+                        View.print("Choose a Y Coordinate (1, 2, 3, 4, 5, 6, 7, 8, 9): ");
+                        Scanner input = new Scanner(System.in);
+                        String yCoordinateS = input.nextLine();
+                        yCoordinateC = yCoordinateS.charAt(0);
+                        int len = yCoordinateS.length();
+                        if (len == 1){
+                            if (yCoordinateC == '1' || yCoordinateC == '2' || yCoordinateC == '3' || yCoordinateC == '4' || yCoordinateC == '5' || yCoordinateC == '6' || yCoordinateC == '7' || yCoordinateC == '8' || yCoordinateC == '9') {
+                                break;
+                            }
                         }
+                        View.println("Invalid input. Please try again.");
                     }
-                    View.println("Invalid input. Please try again.");
+                    Integer xCoordinate = converter(xCoordinateC, yCoordinateC)[0];
+                    Integer yCoordinate = converter(xCoordinateC, yCoordinateC)[1];
+                    try {
+                        game.checkLegalInput(xCoordinate, yCoordinate);
+                        break;
+                    } catch (Exception e) {
+                        View.print(e.getMessage());
+                        View.println(" Please try again.");
+                    }
                 }
+
                 Integer xCoordinate = converter(xCoordinateC, yCoordinateC)[0];
                 Integer yCoordinate = converter(xCoordinateC, yCoordinateC)[1];
+                Game.Direction direction;
+
+
+                View.print("Choose a Direction (W, D, S, A): ");
+                char directionC;
+                while (true) {
+                    Scanner input = new Scanner(System.in);
+                    String directionS = input.nextLine();
+                    directionC = directionS.charAt(0);
+                    int len = directionS.length();
+                    if (len == 1) {
+                        if (directionC == 'W' || directionC == 'D' || directionC == 'S' || directionC == 'A') {
+                            break;
+                        }
+                    }
+                    View.print("Invalid input. Please input the direction again:");
+                }
+                switch (directionC) {
+                    case 'W' -> direction = Game.Direction.UP;
+                    case 'D' -> direction = Game.Direction.RIGHT;
+                    case 'S' -> direction = Game.Direction.DOWN;
+                    case 'A' -> direction = Game.Direction.LEFT;
+                    default -> throw new IllegalStateException("Unexpected value: " + directionC);
+                }
                 try {
-                    game.checkLegalInput(xCoordinate, yCoordinate);
+                    game.move(xCoordinate, yCoordinate, direction);
                     break;
-                } catch (Exception e) {
+                }
+                catch (Exception e) {
                     View.print(e.getMessage());
                     View.println(" Please try again.");
                 }
             }
 
-            Integer xCoordinate = converter(xCoordinateC, yCoordinateC)[0];
-            Integer yCoordinate = converter(xCoordinateC, yCoordinateC)[1];
-            Game.Direction direction;
-            while (true){
-                while (true) {
-                    View.print("Choose a Direction (W, D, S, A): ");
-                    char directionC;
-                    while (true) {
-                        Scanner input = new Scanner(System.in);
-                        String directionS = input.nextLine();
-                        directionC = directionS.charAt(0);
-                        int len = directionS.length();
-                        if (len == 1) {
-                            if (directionC == 'W' || directionC == 'D' || directionC == 'S' || directionC == 'A') {
-                                break;
-                            }
-                        }
-                        View.print("Invalid input. Please input the direction again:");
-                    }
-                    switch (directionC) {
-                        case 'W' -> direction = Game.Direction.UP;
-                        case 'D' -> direction = Game.Direction.RIGHT;
-                        case 'S' -> direction = Game.Direction.DOWN;
-                        case 'A' -> direction = Game.Direction.LEFT;
-                        default -> throw new IllegalStateException("Unexpected value: " + directionC);
-                    }
-                    try {
-                        game.move(xCoordinate, yCoordinate, direction);
-                        break;
-                    }
-                    catch (Exception e) {
-                        View.print(e.getMessage());
-                        View.println(" Please try again.");
-                    }
-                }
-            }
-
+            game.printMap();
 
 
 

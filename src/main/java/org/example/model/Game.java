@@ -23,7 +23,6 @@ public class Game {
         REDWIN,
         BLUEWIN,
     }
-
     private Integer turnCount = 0;
     private Integer redChessCount = 8;
     private Integer blueChessCount = 8;
@@ -134,6 +133,26 @@ public class Game {
         }
         else {
             return GameState.BLUETURN;
+        }
+    }
+
+    /**
+     * A quick start here without any input validation
+     * You can ignore the priority order
+     */
+    public static void main(String[] args) {
+        Game game = new Game();
+        try {
+            game.move(0, 0, Game.Direction.DOWN);
+            game.move(2, 0, Game.Direction.DOWN);
+            game.move(3, 0, Game.Direction.DOWN);
+            game.move(1, 0, Game.Direction.DOWN);
+            game.move(2, 0, Game.Direction.DOWN);
+            game.move(3, 0, Game.Direction.RIGHT);
+            game.move(3, 3, Game.Direction.RIGHT);
+            game.printMap();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 }
