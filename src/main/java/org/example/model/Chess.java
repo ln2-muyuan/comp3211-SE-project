@@ -25,9 +25,4 @@ public abstract class Chess {
         this.state = state;
     }
     public abstract void eat(Chess chess) throws Exception;
-    public void move() throws Exception {
-        if (this.state == AnimalState.TRAPPED){
-            throw new Exception("The animal is trapped");
-        }
-    }
 }

@@ -49,11 +49,9 @@ public class Game {
         switch (movement) {
             case LANDtoLAND:
             case WATERtoWATER:
-                chess.move();
                 break;
             case LANDtoWATER:
                 if (chess instanceof Rat) {
-                    chess.move();
                     break;
                 }
                 else if (chess instanceof Tiger || chess instanceof Lion) {
@@ -68,8 +66,8 @@ public class Game {
         }
         map.removeChess(x, y);
         map.putChess(nextPosition[0], nextPosition[1], chess);
-        updateGameState();
         turnCount++;
+        updateGameState();
     }
     public void move(Integer x, Integer y, Integer nextX, Integer nextY, Direction direction) throws Exception {
         MovementType movement = getMovementType(nextX, nextY, direction);
@@ -126,20 +124,30 @@ public class Game {
         }
     }
     public void printMap() {
-        System.out.println(map.getMap());
+        System.out.print(map.getMap());
     }
     public void updateGameState() {
+        if (map.getBlock(0, 3).hasChess() && map.getBlock(0, 3).getChess().getTeam() == Team.BLUE ) {
+            gameState = GameState.BLUEWIN;
+            return;
+        }
+        if (map.getBlock(6, 3).hasChess() && map.getBlock(6, 3).getChess().getTeam() == Team.RED ) {
+            gameState = GameState.REDWIN;
+            return;
+        }
+        if (redChessCount == 0) {
+            gameState = GameState.BLUEWIN;
+            return;
+        }
+        else if (blueChessCount == 0) {
+            gameState = GameState.REDWIN;
+            return;
+        }
         if (turnCount % 2 == 0) {
             gameState = GameState.REDTURN;
         }
         else if (turnCount % 2 == 1) {
             gameState = GameState.BLUETURN;
-        }
-        if (redChessCount == 0) {
-            gameState = GameState.BLUEWIN;
-        }
-        else if (blueChessCount == 0) {
-            gameState = GameState.REDWIN;
         }
     }
     public GameState getGameState() {
@@ -151,8 +159,9 @@ public class Game {
 
 
     /**
-     * A quick start here without any input validation
-     * You can ignore the priority order
+     * A quick start here.
+     * Please make sure the coordinate you input has a chess on it.
+     * You can ignore whether it is red turn or blue turn.
      */
     public static void main(String[] args) {
         Game game = new Game();

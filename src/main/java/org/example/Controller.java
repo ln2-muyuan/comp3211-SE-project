@@ -64,7 +64,6 @@ public class Controller {
         }
 
     }
-
     private void continueGame(Game game) {
         game.printMap();
         while (true) {
@@ -78,8 +77,8 @@ public class Controller {
 
             while (true) {
                 //check whether users' input coordinate is correct
-                char xCoordinateC = ' ';
-                char yCoordinateC = ' ';
+                char xCoordinateC;
+                char yCoordinateC;
                 while (true){
                     while (true) {
                         View.print("Choose an X Coordinate (A, B, C, D, E, F, G): ");
@@ -135,7 +134,7 @@ public class Controller {
                             break;
                         }
                     }
-                    View.print("Invalid input. Please input the direction again:");
+                    View.print("Invalid input. Please input the direction again: ");
                 }
                 switch (directionC) {
                     case 'W' -> direction = Game.Direction.UP;
@@ -171,9 +170,10 @@ public class Controller {
                     }
                     //quit situation
                     else if (pauseOrQuit.equals("Q")) {
-                        if (game.getGameState() == Game.GameState.REDTURN) {
+                        if (game.getGameState() == Game.GameState.BLUETURN) {
                             game.setGameState(Game.GameState.REDQUIT);
                         } else {game.setGameState(Game.GameState.BLUEQUIT);}
+                        break;
                     }
                     else {
                         View.println("Invalid input. Please try again.");
@@ -187,35 +187,24 @@ public class Controller {
             }
 
             //check whether the game is over
-//            if (!playBoard.getGameState().equals("progressing")){
-//                String red = new Ansi(Ansi.RED, Ansi.ITALIC).format("Red wins!");
-//                String blue = new Ansi(Ansi.BLUE, Ansi.ITALIC).format("Blue wins!");
-//                switch (playBoard.getGameState()) {
-//                    case "redWin" -> view.println(red);
-//                    case "blueWin" -> view.println(blue);
-//                    case "redQuit" -> view.println("Red quits. " + blue);
-//                    case "blueQuit" -> view.println("Blue quits. " + red);
-//                }
-//                break;
-//            }
-
-
-
+            if (game.getGameState() == Game.GameState.REDWIN || game.getGameState() == Game.GameState.BLUEWIN || game.getGameState() == Game.GameState.REDQUIT || game.getGameState() == Game.GameState.BLUEQUIT) {
+                String red = new Ansi(Ansi.RED, Ansi.ITALIC).format("Red wins!");
+                String blue = new Ansi(Ansi.BLUE, Ansi.ITALIC).format("Blue wins!");
+                switch (game.getGameState()) {
+                    case REDWIN -> View.println(red);
+                    case BLUEWIN -> View.println(blue);
+                    case REDQUIT -> View.println("Red quits. " + blue);
+                    case BLUEQUIT -> View.println("Blue quits. " + red);
+                }
+                break;
+            }
             game.printMap();
-
-
 
 
         }
 
 
-
-
-
-
-
     }
-
     private void loadGame() {
         if (cache.isEmpty()){
             View.println("There is no saved game. Please start a new game.");
@@ -237,7 +226,7 @@ public class Controller {
                         return;
                     }
                     else {
-                        View.print("The game is over. Please choose another game: (Q to quit)");
+                        View.print("The game is over. Please choose another game: (Q to quit) ");
                     }
                 }
                 else if (gameName.equals("Q")){
@@ -249,7 +238,6 @@ public class Controller {
             } while (true);
         }
     }
-
     private void mainMenu() {
         System.out.print("1. New Game\n2. Load a game\n3. Exit\n");
         System.out.print("Please enter your choice: ");
@@ -268,7 +256,6 @@ public class Controller {
             }
         }
     }
-
     public void intro() {
         String title = "Welcome to the Jungle Game";
         String msg = Ansi.Italic.and(Ansi.HighIntensity).and(Ansi.Cyan).format("%s", title);
