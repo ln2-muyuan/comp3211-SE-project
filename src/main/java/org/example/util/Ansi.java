@@ -22,8 +22,6 @@ import java.util.List;
  */
 public final class Ansi {
 
-    // Color code strings from:
-    // http://www.topmudsites.com/forums/mud-coding/413-java-ansi.html
     public static final String	SANE				= "\u001B[0m";
 
     public static final String	HIGH_INTENSITY		= "\u001B[1m";
@@ -58,12 +56,10 @@ public final class Ansi {
     public static final Ansi Bold = HighIntensity;
     public static final Ansi LowIntensity = new Ansi(LOW_INTENSITY);
     public static final Ansi Normal = LowIntensity;
-
     public static final Ansi Italic = new Ansi(ITALIC);
     public static final Ansi Underline = new Ansi(UNDERLINE);
     public static final Ansi Blink = new Ansi(BLINK);
     public static final Ansi RapidBlink = new Ansi(RAPID_BLINK);
-
     public static final Ansi Black = new Ansi(BLACK);
     public static final Ansi Red = new Ansi(RED);
     public static final Ansi Green = new Ansi(GREEN);
@@ -72,7 +68,6 @@ public final class Ansi {
     public static final Ansi Magenta = new Ansi(MAGENTA);
     public static final Ansi Cyan = new Ansi(CYAN);
     public static final Ansi White = new Ansi(WHITE);
-
     public static final Ansi BgBlack = new Ansi(BACKGROUND_BLACK);
     public static final Ansi BgRed = new Ansi(BACKGROUND_RED);
     public static final Ansi BgGreen = new Ansi(BACKGROUND_GREEN);
@@ -92,14 +87,12 @@ public final class Ansi {
         }
         codes_str = _codes_str;
     }
-
     public Ansi and(Ansi other) {
         List<String> both = new ArrayList<String>();
         Collections.addAll(both, codes);
         Collections.addAll(both, other.codes);
         return new Ansi(both.toArray(new String[] {}));
     }
-
     public String colorize(String original) {
         return codes_str + original + SANE;
     }

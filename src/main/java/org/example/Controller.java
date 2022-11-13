@@ -1,42 +1,87 @@
 package org.example;
 
-import org.example.model.Block;
-import org.example.model.PlayBoard;
+import org.example.model.Game;
 import org.example.util.Ansi;
 
 import java.util.HashMap;
-import java.util.Objects;
 import java.util.Scanner;
 
 public class Controller {
     private final View view = new View();
-    private final HashMap<String, PlayBoard> cache = new HashMap<>();
-    /**
-     * This method is used to continue a game, regardless of whether it is a new game or a saved game.
-     */
-    private void continueGame(PlayBoard playBoard) {
-        Block[][] temp;
-        temp = playBoard.getBoard();
-        view.print(temp);
+    private final HashMap<String, Game> cache = new HashMap<>();
+    private Integer[] converter(char X, char Y){
+        Integer[] coordinates = new Integer[2];
+        switch (X) {
+            case 'A' -> coordinates[1] = 0;
+            case 'B' -> coordinates[1] = 1;
+            case 'C' -> coordinates[1] = 2;
+            case 'D' -> coordinates[1] = 3;
+            case 'E' -> coordinates[1] = 4;
+            case 'F' -> coordinates[1] = 5;
+            case 'G' -> coordinates[1] = 6;
+        }
+        switch (Y) {
+            case '1' -> coordinates[0] = 8;
+            case '2' -> coordinates[0] = 7;
+            case '3' -> coordinates[0] = 6;
+            case '4' -> coordinates[0] = 5;
+            case '5' -> coordinates[0] = 4;
+            case '6' -> coordinates[0] = 3;
+            case '7' -> coordinates[0] = 2;
+            case '8' -> coordinates[0] = 1;
+            case '9' -> coordinates[0] = 0;
+        }
+        return coordinates;
+    }
+    private void newGame() {
+        View.print("Please enter your new game's name: ");
         while (true) {
-            if (playBoard.getTurnCount() % 2 == 0) {
+            Scanner input = new Scanner(System.in);
+            String gameName = input.nextLine();
+            if (cache.containsKey(gameName)) {
+                View.println("This name has been used. Please try again.");
+            }
+            else {
+                cache.put(gameName, new Game());
+                View.println("New game created.");
+                while (true) {
+                    View.print("Do you want to start the game? (Y/N) ");
+                    input = new Scanner(System.in);
+                    String ifStart = input.nextLine();
+                    if (ifStart.equals("Y")) {
+                        continueGame(cache.get(gameName));
+                        break;
+                    }
+                    else if (ifStart.equals("N")) {
+                        break;
+                    }
+                    else {
+                        View.println("Invalid input. Please try again.");
+                    }
+                }
+                break;
+            }
+        }
+
+    }
+    private void continueGame(Game game) {
+        game.printMap();
+        while (true) {
+            if (game.getGameState() == Game.GameState.REDTURN) {
                 String red = new Ansi(Ansi.RED, Ansi.ITALIC).format("Red's turn");
-                view.println(red);
+                View.println(red);
             } else {
                 String blue = new Ansi(Ansi.BLUE, Ansi.ITALIC).format("Blue's turn");
-                view.println(blue);
+                View.println(blue);
             }
 
-
-            //check whether users' input coordinate is correct
-            boolean coordinateValid;
-            char xCoordinateC = ' ';
-            char yCoordinateC = ' ';
-            do{
-                coordinateValid = true;
-                try {
+            while (true) {
+                //check whether users' input coordinate is correct
+                char xCoordinateC;
+                char yCoordinateC;
+                while (true){
                     while (true) {
-                        view.print("Choose an X Coordinate (A, B, C, D, E, F, G): ");
+                        View.print("Choose an X Coordinate (A, B, C, D, E, F, G): ");
                         Scanner input = new Scanner(System.in);
                         String xCoordinateS = input.nextLine();
                         xCoordinateC = xCoordinateS.charAt(0);
@@ -46,10 +91,10 @@ public class Controller {
                                 break;
                             }
                         }
-                        view.println("Invalid input. Please try again.");
+                        View.println("Invalid input. Please try again.");
                     }
                     while (true) {
-                        view.print("Choose a Y Coordinate (1, 2, 3, 4, 5, 6, 7, 8, 9): ");
+                        View.print("Choose a Y Coordinate (1, 2, 3, 4, 5, 6, 7, 8, 9): ");
                         Scanner input = new Scanner(System.in);
                         String yCoordinateS = input.nextLine();
                         yCoordinateC = yCoordinateS.charAt(0);
@@ -59,185 +104,162 @@ public class Controller {
                                 break;
                             }
                         }
-                        view.println("Invalid input. Please try again.");
+                        View.println("Invalid input. Please try again.");
                     }
-                    playBoard.checkLegalInput(xCoordinateC, yCoordinateC);
+                    Integer xCoordinate = converter(xCoordinateC, yCoordinateC)[0];
+                    Integer yCoordinate = converter(xCoordinateC, yCoordinateC)[1];
+                    try {
+                        game.checkLegalInput(xCoordinate, yCoordinate);
+                        break;
+                    } catch (Exception e) {
+                        View.print(e.getMessage());
+                        View.println(" Please try again.");
+                    }
                 }
-                catch (Exception e){
-                    view.print(e.getMessage());
-                    view.println(" Please try again.");
-                    coordinateValid = false;
-                }
-            } while (!coordinateValid);
+
+                Integer xCoordinate = converter(xCoordinateC, yCoordinateC)[0];
+                Integer yCoordinate = converter(xCoordinateC, yCoordinateC)[1];
+                Game.Direction direction;
 
 
-            //check whether chess's movement is correct
-            boolean moveValid;
-            do{
-                moveValid = true;
-                try {
-                    view.print("Choose a Direction (W, D, S, A): ");
-                    char directionC;
-                    while (true) {
-                        Scanner input = new Scanner(System.in);
-                        String directionS = input.nextLine();
-                        directionC = directionS.charAt(0);
-                        int len = directionS.length();
-                        if (len == 1) {
-                            if (directionC == 'W' || directionC == 'D' || directionC == 'S' || directionC == 'A') {
-                                break;
-                            }
+                View.print("Choose a Direction (W, D, S, A): ");
+                char directionC;
+                while (true) {
+                    Scanner input = new Scanner(System.in);
+                    String directionS = input.nextLine();
+                    directionC = directionS.charAt(0);
+                    int len = directionS.length();
+                    if (len == 1) {
+                        if (directionC == 'W' || directionC == 'D' || directionC == 'S' || directionC == 'A') {
+                            break;
                         }
-                        view.print("Invalid input. Please input the direction again:");
                     }
-                    playBoard.move(xCoordinateC, yCoordinateC, directionC);
-                } catch (Exception e) {
-                    view.print(e.getMessage());
-                    view.println(" Please try again.");
-                    moveValid = false;
+                    View.print("Invalid input. Please input the direction again: ");
                 }
-            } while (!moveValid);
-            view.println("Move successful.");
+                switch (directionC) {
+                    case 'W' -> direction = Game.Direction.UP;
+                    case 'D' -> direction = Game.Direction.RIGHT;
+                    case 'S' -> direction = Game.Direction.DOWN;
+                    case 'A' -> direction = Game.Direction.LEFT;
+                    default -> throw new IllegalStateException("Unexpected value: " + directionC);
+                }
+                try {
+                    //check whether users' input direction is correct(whether the index will be out of bound)
+                    game.move(xCoordinate, yCoordinate, direction);
+                    break;
+                }
+                catch (Exception e) {
+                    View.print(e.getMessage());
+                    View.println(" Please try again.");
+                }
+            }
 
 
-            boolean inputValid;
-            inputValid = true;
-            while(inputValid) {
-                view.print("Do you want to continue the game? (Y/N) ");
+            while(true) {
+                View.print("Do you want to continue the game? (Y/N) ");
                 Scanner input = new Scanner(System.in);
                 String ifContinue = input.nextLine();
-                if (Objects.equals(ifContinue, "N")) {
-                    view.print("Do you want to pause or quit? (P/Q) ");
+                if (ifContinue.equals("N")) {
+                    View.print("Do you want to pause or quit? (P/Q) ");
                     input = new Scanner(System.in);
                     String pauseOrQuit = input.nextLine();
                     //pause situation
-                    if (Objects.equals(pauseOrQuit, "P")) {
-                        view.println("The game is paused. You can continue the game in 'Load game' menu. ");
+                    if (pauseOrQuit.equals("P")) {
+                        View.println("The game is paused. You can continue the game in 'Load game' menu. ");
                         return;
                     }
                     //quit situation
-                    else if (Objects.equals(pauseOrQuit, "Q")) {
-                        inputValid = false;
-                        if (playBoard.getTurnCount() % 2 == 1) {
-                            playBoard.checkWhoQuit("red");
-                        } else { playBoard.checkWhoQuit("blue");}
+                    else if (pauseOrQuit.equals("Q")) {
+                        if (game.getGameState() == Game.GameState.BLUETURN) {
+                            game.setGameState(Game.GameState.REDQUIT);
+                        } else {game.setGameState(Game.GameState.BLUEQUIT);}
+                        break;
                     }
                     else {
-                        view.println("Invalid input. Please try again.");
+                        View.println("Invalid input. Please try again.");
                     }
                 }
-
-
-                else if (Objects.equals(ifContinue, "Y"))
-                    inputValid = false;
+                else if (ifContinue.equals("Y"))
+                    break;
                 else{
-                    view.println("Invalid input. Please try again.");
+                    View.println("Invalid input. Please try again.");
                 }
             }
+
             //check whether the game is over
-            if (!playBoard.getGameState().equals("progressing")){
+            if (game.getGameState() == Game.GameState.REDWIN || game.getGameState() == Game.GameState.BLUEWIN || game.getGameState() == Game.GameState.REDQUIT || game.getGameState() == Game.GameState.BLUEQUIT) {
                 String red = new Ansi(Ansi.RED, Ansi.ITALIC).format("Red wins!");
                 String blue = new Ansi(Ansi.BLUE, Ansi.ITALIC).format("Blue wins!");
-                switch (playBoard.getGameState()) {
-                    case "redWin" -> view.println(red);
-                    case "blueWin" -> view.println(blue);
-                    case "redQuit" -> view.println("Red quits. " + blue);
-                    case "blueQuit" -> view.println("Blue quits. " + red);
+                switch (game.getGameState()) {
+                    case REDWIN -> View.println(red);
+                    case BLUEWIN -> View.println(blue);
+                    case REDQUIT -> View.println("Red quits. " + blue);
+                    case BLUEQUIT -> View.println("Blue quits. " + red);
                 }
                 break;
             }
-            temp = playBoard.getBoard();
-            view.print(temp);
+            game.printMap();
+
+
         }
+
+
     }
-    private void newGame(){
-        view.print("Please enter your new game's name: ");
-        while (true) {
-            Scanner input = new Scanner(System.in);
-            String gameName = input.nextLine();
-            if (cache.containsKey(gameName)) {
-                view.println("This name has been used. Please try again.");
-            }
-            else {
-                cache.put(gameName, new PlayBoard());
-                view.println("New game created.");
-                while (true) {
-                    view.print("Do you want to start the game? (Y/N) ");
-                    input = new Scanner(System.in);
-                    String ifStart = input.nextLine();
-                    if (Objects.equals(ifStart, "Y")) {
-                        continueGame(cache.get(gameName));
-                        break;
-                    }
-                    else if (Objects.equals(ifStart, "N")) {
-                        break;
-                    }
-                    else {
-                        view.println("Invalid input. Please try again.");
-                    }
-                }
-                break;
-            }
-        }
-    }
-    private void loadGame(){
+    private void loadGame() {
         if (cache.isEmpty()){
-            view.println("There is no saved game. Please start a new game.");
+            View.println("There is no saved game. Please start a new game.");
         }
         else {
-            view.println("The saved games are: ");
+            View.println("The saved games are: ");
             //if game state is end , inform the user which side wins
             for (String key : cache.keySet()) {
-                view.println(key + " - " + cache.get(key).getGameState());
+                View.println(key + " - " + cache.get(key).getGameState());
             }
-            view.print("Please enter the game's name you want to load: (Q to quit) ");
+            View.print("Please enter the game's name you want to load: (Q to quit) ");
             do{
                 Scanner input = new Scanner(System.in);
                 String gameName = input.nextLine();
                 if (cache.containsKey(gameName)){
-                    if (cache.get(gameName).getGameState().equals("progressing")){
-                        view.println("Welcome back!");
+                    if ((cache.get(gameName).getGameState() == Game.GameState.REDTURN || cache.get(gameName).getGameState() == Game.GameState.BLUETURN)){
+                        View.println("Welcome back!");
                         continueGame(cache.get(gameName));
                         return;
                     }
                     else {
-                        view.print("The game is over. Please choose another game: (Q to quit)");
+                        View.print("The game is over. Please choose another game: (Q to quit) ");
                     }
                 }
                 else if (gameName.equals("Q")){
                     return;
                 }
                 else {
-                    view.print("There is no game with this name. Please try again: ");
+                    View.print("There is no game with this name. Please try again: ");
                 }
             } while (true);
         }
     }
     private void mainMenu() {
-        view.print("1. New Game\n2. Load Game\n3. Exit\n");
-        view.print("Please enter your choice: ");
+        System.out.print("1. New Game\n2. Load a game\n3. Exit\n");
+        System.out.print("Please enter your choice: ");
         Scanner input = new Scanner(System.in);
         String choice = input.nextLine();
         switch (choice) {
             case "1" -> newGame();
             case "2" -> loadGame();
             case "3" -> {
-                view.print("Thank you for playing!");
+                View.print("Thank you for playing!");
                 System.exit(0);
             }
             default -> {
-                view.println("Invalid input. Please try again.");
+                View.println("Invalid input. Please try again.");
                 mainMenu();
             }
         }
     }
-
-
-
     public void intro() {
         String title = "Welcome to the Jungle Game";
         String msg = Ansi.Italic.and(Ansi.HighIntensity).and(Ansi.Cyan).format("%s", title);
-        view.println(msg);
+        View.println(msg);
         while (true) {
             mainMenu();
         }
