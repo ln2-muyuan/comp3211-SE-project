@@ -131,7 +131,7 @@ public class Game {
             gameState = GameState.BLUEWIN;
             return;
         }
-        if (map.getBlock(6, 3).hasChess() && map.getBlock(6, 3).getChess().getTeam() == Team.RED ) {
+        if (map.getBlock(8, 3).hasChess() && map.getBlock(8, 3).getChess().getTeam() == Team.RED ) {
             gameState = GameState.REDWIN;
             return;
         }
