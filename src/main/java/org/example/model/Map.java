@@ -90,14 +90,22 @@ public class Map {
     }
     public String getMap() {
         StringBuilder result = new StringBuilder();
+        result.append("  ");
         for (int i = 0; i < 9; i++) {
             for (int k = 0; k < 3; k++) {
                 for (int j = 0; j < 7; j++) {
                     result.append(Map[i][j].getBlockLayer(k));
                 }
                 result.append("\n");
+                if (k == 0) {
+                    result.append(9-i).append(" ");
+                }
+                else {
+                    result.append("  ");
+                }
             }
         }
+        result.append("      A         B          C          D          E          F          G\n");
         return result.toString();
     }
 }
