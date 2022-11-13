@@ -58,6 +58,7 @@ public class Game {
                     move(x, y, nextPosition[0], nextPosition[1], direction);
                     map.removeChess(x, y);      // remove chess from old position here
                     turnCount++;
+                    updateGameState();
                     return;
                 }
                 else {
