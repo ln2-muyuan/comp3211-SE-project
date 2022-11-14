@@ -198,8 +198,8 @@ public class Controller {
                 }
                 break;
             }
-            game.printMap();
-
+            String map = game.getMap();
+            View.println(map);
 
         }
 
@@ -264,6 +264,8 @@ public class Controller {
             mainMenu();
         }
     }
+
+
 
     public static void main(String[] args) {
         Controller controller = new Controller();

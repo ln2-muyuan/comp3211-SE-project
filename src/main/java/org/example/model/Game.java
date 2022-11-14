@@ -127,6 +127,10 @@ public class Game {
     public void printMap() {
         System.out.print(map.getMap());
     }
+
+    public String getMap() {
+        return map.getMap();
+    }
     public void updateGameState() {
         if (map.getBlock(0, 3).hasChess() && map.getBlock(0, 3).getChess().getTeam() == Team.BLUE ) {
             gameState = GameState.BLUEWIN;
@@ -164,24 +168,24 @@ public class Game {
      * Please make sure the coordinate you input has a chess on it.
      * You can ignore whether it is red turn or blue turn.
      */
-    public static void main(String[] args) {
-        Game game = new Game();
-        try {
-            game.move(0, 0, Game.Direction.DOWN);
-            game.move(2, 0, Game.Direction.DOWN);
-            game.move(3, 0, Game.Direction.DOWN);
-            game.move(1, 0, Game.Direction.DOWN);
-            game.move(2, 0, Game.Direction.RIGHT);
-            game.move(7, 1, Game.Direction.UP);
-            game.move(2, 1, Game.Direction.DOWN);
-            game.move(6, 1, Game.Direction.RIGHT);
-            game.move(6, 2, Game.Direction.RIGHT);
-            game.move(6, 3, Game.Direction.DOWN);
-            game.move(7, 5, Game.Direction.LEFT);
-            game.move(7, 4, Game.Direction.LEFT);
-            game.printMap();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-    }
+//    public static void main(String[] args) {
+//        Game game = new Game();
+//        try {
+//            game.move(0, 0, Game.Direction.DOWN);
+//            game.move(2, 0, Game.Direction.DOWN);
+//            game.move(3, 0, Game.Direction.DOWN);
+//            game.move(1, 0, Game.Direction.DOWN);
+//            game.move(2, 0, Game.Direction.RIGHT);
+//            game.move(7, 1, Game.Direction.UP);
+//            game.move(2, 1, Game.Direction.DOWN);
+//            game.move(6, 1, Game.Direction.RIGHT);
+//            game.move(6, 2, Game.Direction.RIGHT);
+//            game.move(6, 3, Game.Direction.DOWN);
+//            game.move(7, 5, Game.Direction.LEFT);
+//            game.move(7, 4, Game.Direction.LEFT);
+//            game.printMap();
+//        } catch (Exception e) {
+//            System.out.println(e.getMessage());
+//        }
+//    }
 }
