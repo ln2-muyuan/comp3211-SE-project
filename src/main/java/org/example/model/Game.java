@@ -127,7 +127,6 @@ public class Game {
     public void printMap() {
         System.out.print(map.getMap());
     }
-
     public String getMap() {
         return map.getMap();
     }
