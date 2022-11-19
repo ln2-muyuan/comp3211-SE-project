@@ -6,7 +6,7 @@ Windows IntelliJ IDE to run the game.
     ```sh
     Language level = 18
     ```
-2.  Settings -> Build, Execution, Deployment -> compiler -> java compiler
+2.  Settings -> Build, Execution, Deployment -> Compiler -> Java compiler
     ```sh
     Project bytecode version = 18
     Target bytecode version = 18
